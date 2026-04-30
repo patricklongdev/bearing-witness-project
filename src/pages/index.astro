@@ -37,6 +37,7 @@ const firstProject = allProjects[0];
       <p class="hero-label">Curated by Professor Michael Jackson, OC, QC</p>
       <h1 class="hero-title">Bearing<br />Witness</h1>
       <p class="hero-desc">An archive of student creative work exploring Indigenous rights, treaty law, and the carceral state in Canada.</p>
+      <a href={`/projects/${firstProject.slug}/`} class="hero-cta-mobile cta-btn">Read the Archive</a>
     </div>
   </section>
 
@@ -314,4 +315,43 @@ const firstProject = allProjects[0];
     transition: color 0.15s;
   }
   .cat-link:hover { color: var(--ink); }
+
+  /* ── Mobile CTA (hidden on desktop) ── */
+  .hero-cta-mobile { display: none; }
+
+  /* ── Mobile hero rework ── */
+  @media (max-width: 700px) {
+    .hero {
+      padding: 4rem var(--page-pad) 3rem;
+    }
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+    }
+    .hero-title {
+      order: 1;
+      font-size: 20vw;
+      margin-bottom: 0.75rem;
+    }
+    .hero-label {
+      order: 2;
+      font-size: 0.62rem;
+      margin-bottom: 0;
+      margin-top: 0.75rem;
+    }
+    .hero-desc {
+      order: 3;
+      font-size: 1rem;
+      line-height: 1.45;
+      margin-top: 1rem;
+      margin-bottom: 1.75rem;
+    }
+    .hero-cta-mobile {
+      order: 4;
+      display: inline-block;
+      align-self: flex-start;
+    }
+    .cta-section { display: none; }
+    .intro-inner p:first-child { display: none; }
+  }
 </style>
