@@ -38,6 +38,7 @@ const firstProject = allProjects[0];
       <h1 class="hero-title">Bearing<br />Witness</h1>
       <p class="hero-desc">An archive of student creative work exploring Indigenous rights, treaty law, and the carceral state in Canada.</p>
       <a href={`/projects/${firstProject.slug}/`} class="hero-cta-mobile cta-btn">Read the Archive</a>
+      <p class="hero-cta-sub">Follow the archive in the order Professor Jackson intended, from beginning to end.</p>
     </div>
   </section>
 
@@ -316,8 +317,12 @@ const firstProject = allProjects[0];
   }
   .cat-link:hover { color: var(--ink); }
 
+  /* ── First intro paragraph hidden on all sizes ── */
+  .intro-inner p:first-child { display: none; }
+
   /* ── Mobile CTA (hidden on desktop) ── */
   .hero-cta-mobile { display: none; }
+  .hero-cta-sub { display: none; }
 
   /* ── Mobile hero rework ── */
   @media (max-width: 700px) {
@@ -351,7 +356,15 @@ const firstProject = allProjects[0];
       display: inline-block;
       align-self: flex-start;
     }
+    .hero-cta-sub {
+      order: 5;
+      display: block;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 36ch;
+      margin-top: 0.75rem;
+    }
     .cta-section { display: none; }
-    .intro-inner p:first-child { display: none; }
   }
 </style>
