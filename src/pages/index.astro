@@ -187,6 +187,7 @@ const firstProject = allProjects[0];
     text-decoration: none;
     padding: 0.9rem 2.5rem;
     border: 1px solid var(--ink);
+    border-radius: 999px;
     transition: background 0.15s, color 0.15s;
   }
   .cta-btn:hover {
@@ -330,7 +331,7 @@ const firstProject = allProjects[0];
   @media (max-width: 700px) {
     .hero {
       min-height: calc(100svh - 65px);
-      padding: 3rem var(--page-pad) 3rem;
+      padding: 5rem var(--page-pad) 4rem;
       display: flex;
       flex-direction: column;
     }
@@ -345,10 +346,7 @@ const firstProject = allProjects[0];
       margin-bottom: 0;
     }
     .hero-label {
-      order: 2;
-      font-size: 0.62rem;
-      margin-bottom: 0;
-      margin-top: 1.5rem;
+      display: none;
     }
     .hero-desc {
       order: 3;
@@ -361,6 +359,9 @@ const firstProject = allProjects[0];
       order: 4;
       margin-top: auto;
       padding-top: 2rem;
+      font-size: 1rem;
+      padding: 0.7rem 2rem;
+      text-align: center;
     }
     .cta-section { display: none; }
   }
