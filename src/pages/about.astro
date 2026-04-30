@@ -4,8 +4,20 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="About" description="About the Bearing Witness Project">
   <div class="page">
-    <h1>About</h1>
-    <p>Content coming soon.</p>
+
+    <h1>About the Archive</h1>
+    <p>The Bearing Witness Project is an archive of student creative work produced in Professor Michael Jackson's seminars at the Peter A. Allard School of Law, University of British Columbia, over more than two decades.</p>
+    <p>The archive began in 1999 when Nadia Belokopitov, a member of the Haida Nation and a student in the seminar First Nations and the Administration of Justice, asked if she might respond to the course not with a traditional seminar paper, but with a Northwest coast button blanket. The result — Robes of Power — is a powerful and accessible statement of the Indigenous colonial experience and the journey to self-determination. Professor Jackson has shown it to students in his seminars every year since its creation. It is the first work in this archive, and its genesis is the reason this archive exists.</p>
+    <p>Since 1999, students in Professor Jackson's seminars on Aboriginal and Treaty Rights, Penal Policy, and Criminal Justice have produced 127 works spanning beadwork, textile, photography, painting, illustration, poetry, essay, narrative, video, music, and more. Each work is accompanied by Professor Jackson's curatorial commentary, which situates the student's work within the broader legal and historical context of the seminar.</p>
+
+    <h2>About Professor Jackson</h2>
+    <p>Michael Jackson, OC, QC is Professor Emeritus at the Peter A. Allard School of Law, University of British Columbia, where he has taught for more than four decades. He is one of Canada's foremost authorities on prisoners' rights and Indigenous rights, and the author of <em>Justice Behind the Walls: Human Rights in Canadian Prisons</em>, widely regarded as a definitive account of the Canadian prison system.</p>
+    <p>Professor Jackson has served as counsel in landmark cases before the Supreme Court of Canada, including cases that established the duty to consult with Indigenous peoples and that recognized the Charter rights of prisoners. He was appointed to the Order of Canada in recognition of his contributions to law and human rights.</p>
+
+    <h2>About the Seminars</h2>
+    <p>The seminars in which these works were produced were unlike most law school courses. Students were given the option — rare in legal education — to respond to the seminar's subject matter through a work of art rather than a traditional paper. The invitation was not a concession to accessibility; it was a pedagogical conviction that the law's encounter with Indigenous peoples and with the carceral system could not be fully understood through legal argument alone.</p>
+    <p>The works in this archive are evidence of what students found when they accepted that invitation.</p>
+
   </div>
 </Layout>
 
@@ -18,11 +30,27 @@ import Layout from '../layouts/Layout.astro';
     font-size: 1.05rem;
     line-height: 1.8;
   }
+
   h1 {
-    font-family: var(--sans);
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: normal;
     letter-spacing: -0.02em;
-    margin-bottom: 2rem;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: normal;
+    color: var(--accent);
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--ink);
+    margin-bottom: 1.2em;
   }
 </style>
