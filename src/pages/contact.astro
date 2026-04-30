@@ -1,28 +1,170 @@
 ---
 import Layout from '../layouts/Layout.astro';
+// To activate the form: create a free account at formspree.io, create a form,
+// and replace XXXXXXXX below with your form ID.
+const FORMSPREE_ID = 'XXXXXXXX';
 ---
 
 <Layout title="Contact" description="Contact the Bearing Witness Project">
   <div class="page">
     <h1>Contact</h1>
-    <p>Content coming soon.</p>
+    <p class="intro">For inquiries about the Bearing Witness Project, to request permission to use materials from the archive, or to get in touch with Professor Jackson, please use the form below.</p>
+
+    <form id="contact-form" action={`https://formspree.io/f/${FORMSPREE_ID}`} method="POST" novalidate>
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" />
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" required></textarea>
+      </div>
+      <div class="form-footer">
+        <button type="submit" id="submit-btn">Send message</button>
+      </div>
+      <p class="form-status" id="form-status" hidden></p>
+    </form>
   </div>
 </Layout>
 
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const btn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const status = document.getElementById('form-status') as HTMLParagraphElement;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    status.hidden = true;
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+
+      if (res.ok) {
+        form.reset();
+        status.textContent = 'Your message has been sent. Thank you.';
+        status.className = 'form-status form-status--success';
+        btn.textContent = 'Send message';
+        btn.disabled = false;
+      } else {
+        throw new Error();
+      }
+    } catch {
+      status.textContent = 'Something went wrong. Please try again or send an email directly.';
+      status.className = 'form-status form-status--error';
+      btn.textContent = 'Send message';
+      btn.disabled = false;
+    }
+
+    status.hidden = false;
+  });
+</script>
+
 <style>
   .page {
-    max-width: 68ch;
+    max-width: 56ch;
     margin: 0 auto;
     padding: 5rem var(--page-pad) 6rem;
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro {
     font-family: var(--serif);
     font-size: 1.05rem;
     line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 3rem;
   }
-  h1 {
-    font-family: var(--sans);
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin-bottom: 2rem;
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
   }
+
+  label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  input, textarea {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--ink);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s;
+    resize: none;
+  }
+
+  input:focus, textarea:focus {
+    border-bottom-color: var(--ink);
+  }
+
+  textarea {
+    margin-top: 0.25rem;
+    line-height: 1.7;
+  }
+
+  .form-footer {
+    margin-top: 2rem;
+  }
+
+  button[type="submit"] {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: #fff;
+    background: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 0.75rem 2rem;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    letter-spacing: 0.01em;
+  }
+  button[type="submit"]:hover:not(:disabled) {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  button[type="submit"]:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .form-status {
+    margin-top: 1.25rem;
+    font-size: 0.9rem;
+    font-family: var(--serif);
+    line-height: 1.6;
+  }
+  .form-status--success { color: #3a6b3a; }
+  .form-status--error   { color: #8b2020; }
 </style>
