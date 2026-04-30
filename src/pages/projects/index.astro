@@ -74,11 +74,7 @@ const firstProject = allProjects[0];
               data-tags={project.data.tags?.join(',') ?? ''}
               data-year={project.data.year ?? ''}
             >
-              {isBg ? (
-                <div class="card-thumb card-thumb--bg">
-                  <span class="bg-placeholder">Backgrounder</span>
-                </div>
-              ) : project.data.thumbnail ? (
+              {project.data.thumbnail ? (
                 <div class="card-thumb">
                   <img src={project.data.thumbnail} alt={project.data.title} loading="lazy" />
                 </div>
@@ -120,11 +116,7 @@ const firstProject = allProjects[0];
             data-tags={project.data.tags?.join(',') ?? ''}
             data-year={project.data.year ?? ''}
           >
-            {isBg ? (
-              <div class="card-thumb card-thumb--bg">
-                <span class="bg-placeholder">Backgrounder</span>
-              </div>
-            ) : project.data.thumbnail ? (
+            {project.data.thumbnail ? (
               <div class="card-thumb">
                 <img src={project.data.thumbnail} alt={project.data.title} loading="lazy" />
               </div>
@@ -360,22 +352,16 @@ const firstProject = allProjects[0];
   }
 
   .card--backgrounder {
-    background: #f5f4f0;
+    border-color: #333;
   }
-
-  .card-thumb--bg {
-    background: #eae7e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .card--backgrounder .card-body {
+    background: #1e1b18;
   }
-
-  .bg-placeholder {
-    font-family: var(--serif);
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #8a8278;
+  .card--backgrounder .card-title {
+    color: #f0ebe4;
+  }
+  .card--backgrounder .card-author {
+    color: #8c8680;
   }
 
   .card-author--professor {
