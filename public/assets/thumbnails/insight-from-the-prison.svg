@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#1e1b18"/>
+  <text x="56" y="210"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="90"
+    fill="#f0ebe4"
+    letter-spacing="-2">Insight</text>
+  <text x="56" y="316"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="90"
+    fill="#f0ebe4"
+    letter-spacing="-2">from the</text>
+  <text x="56" y="422"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="90"
+    fill="#f0ebe4"
+    letter-spacing="-2">Prison</text>
+</svg>

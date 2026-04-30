@@ -1,0 +1,383 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map(project => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+const { title, author, category, tags, year, excerpt, thumbnail, pdf, projectLink, order } = project.data;
+
+const allProjects = await getCollection('projects');
+allProjects.sort((a, b) => a.data.order - b.data.order);
+const idx = allProjects.findIndex(p => p.slug === project.slug);
+const prev = idx > 0 ? allProjects[idx - 1] : null;
+const next = idx < allProjects.length - 1 ? allProjects[idx + 1] : null;
+
+const isBackgrounder = tags?.includes('Backgrounder');
+const metaCount = isBackgrounder
+  ? [category, projectLink].filter(Boolean).length
+  : [author, category, pdf, year, tags?.length, projectLink].filter(Boolean).length;
+const metaCols = metaCount === 4 ? 2 : Math.min(metaCount, 3);
+---
+
+<Layout title={title} description={excerpt} thumbnail={thumbnail}>
+  <article class="project" data-pagefind-body>
+
+    <div class="title-block">
+      <h1>{title}</h1>
+    </div>
+
+    {thumbnail && <img src={thumbnail} alt="" data-pagefind-meta="image[src], image_alt[alt]" hidden aria-hidden="true" />}
+
+    <hr class="divider" />
+
+    <div class="meta-grid" style={`grid-template-columns: repeat(${metaCols}, 1fr)`}>
+      {isBackgrounder ? (
+        <>
+          <div class="meta-cell">
+            <span class="meta-label">Author</span>
+            <span class="meta-value" data-pagefind-meta="author">Professor Michael Jackson</span>
+          </div>
+          {category && (
+            <div class="meta-cell">
+              <span class="meta-label">Category</span>
+              <a class="meta-value meta-link" href={`/projects/?category=${encodeURIComponent(category)}`} data-pagefind-filter="category">{category}</a>
+            </div>
+          )}
+          {projectLink && (
+            <div class="meta-cell">
+              <span class="meta-label">Link</span>
+              <a class="meta-value meta-link" href={projectLink} target="_blank" rel="noopener noreferrer">View Project ↗</a>
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          {author && (
+            <div class="meta-cell">
+              <span class="meta-label">Student</span>
+              <span class="meta-value" data-pagefind-meta="author">{author}</span>
+            </div>
+          )}
+          {category && (
+            <div class="meta-cell">
+              <span class="meta-label">Category</span>
+              <a class="meta-value meta-link" href={`/projects/?category=${encodeURIComponent(category)}`} data-pagefind-filter="category">{category}</a>
+            </div>
+          )}
+          {pdf && (
+            <div class="meta-cell">
+              <span class="meta-label">Download</span>
+              <a class="meta-value meta-link" href={pdf} download>Download Project</a>
+            </div>
+          )}
+          {year && (
+            <div class="meta-cell">
+              <span class="meta-label">Year</span>
+              <a class="meta-value meta-link" href={`/projects/?year=${year}`} data-pagefind-filter="year">{year}</a>
+            </div>
+          )}
+          {tags && tags.length > 0 && (
+            <div class="meta-cell">
+              <span class="meta-label">Art Form</span>
+              <span class="meta-value">
+                {tags.map((tag, i) => (
+                  <>
+                    <a class="meta-link" href={`/projects/?medium=${encodeURIComponent(tag)}`} data-pagefind-filter="medium">{tag}</a>
+                    {i < tags.length - 1 && ' · '}
+                  </>
+                ))}
+              </span>
+            </div>
+          )}
+          {projectLink && (
+            <div class="meta-cell">
+              <span class="meta-label">Link</span>
+              <a class="meta-value meta-link" href={projectLink} target="_blank" rel="noopener noreferrer">
+                View Project ↗
+              </a>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+
+    <hr class="divider" />
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <nav class="project-nav">
+      {prev ? (
+        <a href={`/projects/${prev.slug}/`} class="nav-link prev">
+          <span class="nav-label">← Previous</span>
+          <span class="nav-title">{prev.data.title}</span>
+        </a>
+      ) : <div />}
+      {next ? (
+        <a href={`/projects/${next.slug}/`} class="nav-link next">
+          <span class="nav-label">Next →</span>
+          <span class="nav-title">{next.data.title}</span>
+        </a>
+      ) : <div />}
+    </nav>
+
+  </article>
+</Layout>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+<script>
+  // Wait for GLightbox script to load then initialise
+  document.addEventListener('DOMContentLoaded', () => {
+    // Wrap every prose image in an <a> pointing to itself, grouped into one gallery
+    const imgs = document.querySelectorAll<HTMLImageElement>('.prose img');
+    imgs.forEach(img => {
+      // Skip if already wrapped
+      if (img.parentElement?.tagName === 'A') return;
+      const a = document.createElement('a');
+      a.href = img.src;
+      a.className = 'glightbox';
+      a.dataset.gallery = 'project-images';
+      a.dataset.description = img.alt || '';
+      img.parentNode!.insertBefore(a, img);
+      a.appendChild(img);
+    });
+
+    (window as any).GLightbox({
+      selector: '.glightbox',
+      touchNavigation: true,
+      loop: false,
+      zoomable: false,
+    });
+  });
+</script>
+
+<style>
+  .project {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--page-pad) 6rem;
+  }
+
+  /* ── Title ── */
+  .title-block {
+    padding: 5rem 0 1rem;
+  }
+
+  h1 {
+    font-family: var(--sans);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 18ch;
+  }
+
+  /* ── Dividers ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* ── Metadata grid ── */
+  .meta-grid {
+    display: grid;
+    gap: 2rem 1rem;
+    padding: 2.5rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .meta-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .meta-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .meta-label {
+    font-family: var(--sans);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .meta-value {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .meta-link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border);
+    transition: text-decoration-color 0.15s;
+  }
+  .meta-link:hover {
+    text-decoration-color: var(--ink);
+  }
+
+  /* ── Body prose ── */
+  .prose {
+    max-width: 68ch;
+    margin: 4rem auto 0;
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--ink);
+  }
+
+  .prose :global(p) { margin-bottom: 1.2em; }
+
+  .prose :global(h2),
+  .prose :global(h3) {
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin: 2em 0 0.6em;
+    color: var(--ink);
+  }
+
+  .prose :global(blockquote) {
+    border-left: 2px solid var(--border);
+    padding-left: 1.25rem;
+    margin: 1.5em 0;
+    color: var(--muted);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.4em;
+    margin-bottom: 1.2em;
+  }
+  .prose :global(li) { margin-bottom: 0.35em; }
+
+  .prose :global(figure) { margin: 2em 0; }
+
+  .prose :global(.glightbox) { cursor: zoom-in; }
+
+  .prose :global(figcaption) {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    font-family: var(--sans);
+    font-style: normal;
+  }
+
+  .prose :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .prose :global(blockquote img) {
+    width: 100%;
+  }
+
+  .prose :global(.wp-block-gallery) {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    margin: 2em 0;
+  }
+  .prose :global(.wp-block-gallery.columns-2) { grid-template-columns: repeat(2, 1fr); }
+  .prose :global(.wp-block-gallery.columns-4) { grid-template-columns: repeat(4, 1fr); }
+  .prose :global(.wp-block-gallery.columns-5) { grid-template-columns: repeat(5, 1fr); }
+  .prose :global(.wp-block-gallery.columns-6) { grid-template-columns: repeat(6, 1fr); }
+
+  .prose :global(.wp-block-gallery figure) { margin: 0; }
+
+  .prose :global(.wp-block-gallery img) {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  /* Single image wrapped in gallery → full width, natural aspect ratio */
+  .prose :global(.wp-block-gallery figure:only-child) {
+    grid-column: 1 / -1;
+  }
+  .prose :global(.wp-block-gallery figure:only-child img) {
+    height: auto;
+  }
+
+  .prose :global(audio) { width: 100%; margin: 1.5em 0; }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5em 0;
+  }
+
+  .prose :global(.wp-block-footnotes) {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-family: var(--sans);
+    padding-left: 1.2em;
+    margin-top: 0.5em;
+    line-height: 1.6;
+  }
+  .prose :global(.wp-block-footnotes li) { margin-bottom: 0.5em; }
+  .prose :global(.wp-block-footnotes a) { color: var(--muted); }
+
+  .prose :global(sup) {
+    font-size: 0.7em;
+    line-height: 0;
+  }
+
+  /* ── Prev / Next ── */
+  .project-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    max-width: 68ch;
+    margin: 4rem auto 0;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .nav-link.next { text-align: right; }
+
+  .nav-label {
+    font-size: 0.7rem;
+    font-family: var(--sans);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .nav-title {
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+</style>

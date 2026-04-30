@@ -1,0 +1,312 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  thumbnail?: string;
+}
+
+const { title, description, thumbnail } = Astro.props;
+const siteName = 'Bearing Witness Project';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title === siteName ? title : `${title} — ${siteName}`}</title>
+    {description && <meta name="description" content={description} />}
+    {thumbnail && <meta property="og:image" content={thumbnail} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <header>
+      <a href="/" class="site-logo" aria-label={siteName}>
+        <img src="/images/logo.svg" alt={siteName} width="240" height="102" />
+      </a>
+      <div class="nav-right">
+        <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+          <a href="/projects/">Projects</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+        <button class="search-toggle" id="search-toggle" aria-label="Search" aria-expanded="false">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7.5" cy="7.5" r="5.5"/>
+            <line x1="12" y1="12" x2="16.5" y2="16.5"/>
+          </svg>
+        </button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="2" y1="5"  x2="20" y2="5"/>
+            <line x1="2" y1="11" x2="20" y2="11"/>
+            <line x1="2" y1="17" x2="20" y2="17"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="search-overlay" id="search-overlay" hidden role="dialog" aria-modal="true" aria-label="Search">
+      <div class="search-modal">
+        <div id="search"></div>
+      </div>
+    </div>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <p>An archive of student art projects exploring Indigenous rights and criminal justice.</p>
+    </footer>
+
+    <script>
+      const toggle = document.getElementById('nav-toggle');
+      const nav    = document.getElementById('site-nav');
+      toggle?.addEventListener('click', () => {
+        const open = nav!.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+
+      // ── Search ──
+      const searchOverlay = document.getElementById('search-overlay');
+      const searchToggle  = document.getElementById('search-toggle');
+      let pagefindLoaded  = false;
+
+      function openSearch() {
+        if (!searchOverlay) return;
+        searchOverlay.hidden = false;
+        document.body.style.overflow = 'hidden';
+        searchToggle?.setAttribute('aria-expanded', 'true');
+
+        if (!pagefindLoaded) {
+          pagefindLoaded = true;
+
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = '/pagefind/pagefind-ui.css';
+          document.head.appendChild(link);
+
+          const script = document.createElement('script');
+          script.src = '/pagefind/pagefind-ui.js';
+          script.onload = () => {
+            new (window as any).PagefindUI({ element: '#search', showSubResults: true, resetStyles: false });
+            setTimeout(() => {
+              const input = document.querySelector<HTMLInputElement>('.pagefind-ui__search-input');
+              if (input) input.placeholder = 'Search archive';
+            }, 50);
+            focusInput();
+          };
+          document.head.appendChild(script);
+        } else {
+          focusInput();
+        }
+      }
+
+      function focusInput() {
+        setTimeout(() => {
+          searchOverlay?.querySelector<HTMLInputElement>('input[type="text"]')?.focus();
+        }, 60);
+      }
+
+      function closeSearch() {
+        if (!searchOverlay) return;
+        searchOverlay.hidden = true;
+        document.body.style.overflow = '';
+        searchToggle?.setAttribute('aria-expanded', 'false');
+      }
+
+      searchToggle?.addEventListener('click', openSearch);
+      searchOverlay?.addEventListener('click', e => { if (e.target === searchOverlay) closeSearch(); });
+
+      document.addEventListener('keydown', e => {
+        if (!searchOverlay) return;
+        if (e.key === 'Escape' && !searchOverlay.hidden) { closeSearch(); return; }
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+
+  :root {
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans: system-ui, -apple-system, sans-serif;
+    --ink: #1a1a1a;
+    --muted: #555;
+    --border: #ddd;
+    --bg: #fafaf8;
+    --accent: #7a3b2e;
+    --max: 72rem;
+    --page-pad: clamp(1rem, 5vw, 3rem);
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    padding: 0.75rem var(--page-pad);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .site-logo {
+    display: inline-block;
+    line-height: 0;
+  }
+  .site-logo img {
+    height: 4.5rem;
+    width: auto;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .site-nav {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+  .site-nav a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .site-nav a:hover { color: var(--accent); }
+
+  .search-toggle {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    color: var(--ink);
+    line-height: 0;
+  }
+  .search-toggle:hover { color: var(--accent); }
+
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    color: var(--ink);
+    line-height: 0;
+  }
+
+  @media (max-width: 640px) {
+    .nav-toggle { display: flex; align-items: center; }
+
+    .site-nav {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 var(--page-pad);
+      gap: 0;
+      z-index: 100;
+    }
+    .site-nav.is-open { display: flex; }
+
+    .site-nav a {
+      font-size: 1.275rem;
+      width: 100%;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .site-nav a:last-child { border-bottom: none; }
+  }
+
+  main { flex: 1; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem var(--page-pad);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  a { color: var(--accent); }
+  a:hover { text-decoration: none; }
+
+  img { max-width: 100%; height: auto; display: block; }
+
+  .prose img { width: 100%; height: auto; display: block; }
+  .prose figure { margin: 2em 0; }
+  .prose figure img { width: 100%; }
+
+  /* ── Search overlay ── */
+  .search-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,26,0.55);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10vh var(--page-pad) 0;
+  }
+
+  .search-modal {
+    background: var(--bg);
+    width: 100%;
+    max-width: 38rem;
+    border-radius: 6px;
+    padding: 1.5rem;
+    position: relative;
+    max-height: 78vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  }
+
+  /* Pagefind UI theme */
+  :root {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: #999;
+    --pagefind-ui-text: var(--ink);
+    --pagefind-ui-background: var(--bg);
+    --pagefind-ui-border: var(--border);
+    --pagefind-ui-tag: #f0ece6;
+    --pagefind-ui-font: system-ui, -apple-system, sans-serif;
+  }
+
+  .pagefind-ui__search-input {
+    caret-color: var(--ink);
+    caret-shape: bar;
+  }
+  .pagefind-ui__search-input:focus {
+    border-color: #bbb !important;
+    outline: 1px solid #bbb !important;
+  }
+  .pagefind-ui__search-clear { display: none !important; }
+  .pagefind-ui__filter-panel { border: none !important; padding: 0 0.1rem !important; }
+</style>

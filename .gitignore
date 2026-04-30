@@ -1,0 +1,6 @@
+dist/
+node_modules/
+public/pagefind/
+.env
+.env.*
+.DS_Store

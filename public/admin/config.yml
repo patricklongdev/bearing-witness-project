@@ -1,0 +1,147 @@
+local_backend: true
+
+backend:
+  name: github
+  repo: your-org/bearing-witness-project  # ← update before deploying
+  branch: main
+
+media_folder: "public/assets"
+public_folder: "/assets"
+
+collections:
+  - name: "projects"
+    label: "Projects"
+    label_singular: "Project"
+    folder: "src/content/projects"
+    extension: "mdx"
+    format: "frontmatter"
+    create: true
+    slug: "{{slug}}"
+    identifier_field: "title"
+    summary: "{{order}}. {{title}} — {{author}}"
+    sortable_fields: ["order", "title", "author", "year", "category"]
+    view_filters:
+      - label: "Aboriginal Rights"
+        field: category
+        pattern: "Aboriginal Rights"
+      - label: "Treaty Rights"
+        field: category
+        pattern: "Treaty Rights"
+      - label: "Prisoner Rights"
+        field: category
+        pattern: "Prisoner Rights"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+
+      - label: "Slug"
+        name: "slug"
+        widget: "hidden"
+
+      - label: "Order"
+        name: "order"
+        widget: "number"
+        value_type: "int"
+        min: 1
+        hint: "Display order within the archive (1–127)"
+
+      - label: "Author"
+        name: "author"
+        widget: "string"
+        required: false
+        hint: "Student's full name"
+
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - "Aboriginal Rights"
+          - "Treaty Rights"
+          - "Prisoner Rights"
+        required: false
+
+      - label: "Medium / Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+        hint: "Art form or medium — select one or more"
+        field:
+          label: "Medium"
+          name: "medium"
+          widget: "select"
+          options:
+            - "Animation"
+            - "Backgrounder"
+            - "Beadwork"
+            - "Carving"
+            - "Ceramic"
+            - "Collage"
+            - "Dance"
+            - "Drama"
+            - "Embroidery"
+            - "Essay"
+            - "Game"
+            - "Illustration"
+            - "Interview"
+            - "Journal"
+            - "Jewelry"
+            - "Lithography"
+            - "Magazine Article"
+            - "Mixed media"
+            - "Music"
+            - "Narrative"
+            - "Painting"
+            - "Performance"
+            - "Photography"
+            - "Poetry"
+            - "Presentation"
+            - "Sculpture"
+            - "Song"
+            - "Storytelling"
+            - "Storyboard"
+            - "Textile"
+            - "Video"
+
+      - label: "Year"
+        name: "year"
+        widget: "string"
+        required: false
+        hint: "Year the project was created (e.g. 2012)"
+        pattern:
+          - '^\d{4}$'
+          - "Must be a 4-digit year"
+
+      - label: "Excerpt"
+        name: "excerpt"
+        widget: "text"
+        required: false
+        hint: "Short description shown on the index and in meta tags"
+
+      - label: "Thumbnail"
+        name: "thumbnail"
+        widget: "image"
+        required: false
+        media_folder: "/public/assets"
+        public_folder: "/assets"
+        hint: "Featured image shown on the index card and at the top of the project page"
+
+      - label: "PDF"
+        name: "pdf"
+        widget: "file"
+        required: false
+        media_folder: "/public/assets"
+        public_folder: "/assets"
+        hint: "Student's original PDF submission"
+        accept: ".pdf"
+
+      - label: "Project Link"
+        name: "projectLink"
+        widget: "string"
+        required: false
+        hint: "Optional external URL (e.g. to a video, exhibition, or related resource)"
+
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+        hint: "Posts with slideshows or video embeds use custom MDX components — edit those in code rather than here"

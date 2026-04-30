@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#1e1b18"/>
+  <text x="56" y="210"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="90"
+    fill="#f0ebe4"
+    letter-spacing="-2">On Wings</text>
+  <text x="56" y="316"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="90"
+    fill="#f0ebe4"
+    letter-spacing="-2">of Change</text>
+  <text x="58" y="412"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="36"
+    fill="#8c8680">The Nisga'a</text>
+  <text x="58" y="457"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="36"
+    fill="#8c8680">Final Agreement</text>
+</svg>

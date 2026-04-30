@@ -1,0 +1,121 @@
+---
+interface Image {
+  src: string;
+  alt?: string;
+}
+
+interface Props {
+  images: Image[];
+}
+
+const { images } = Astro.props;
+const id = `slideshow-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="slideshow" id={id}>
+  <div class="slideshow-track">
+    {images.map((img, i) => (
+      <figure class="slideshow-slide">
+        <img
+          src={img.src}
+          alt={img.alt || ""}
+          loading={i === 0 ? "eager" : "lazy"}
+        />
+      </figure>
+    ))}
+  </div>
+
+  {images.length > 1 && (
+    <div class="slideshow-controls">
+      <button class="prev" aria-label="Previous slide">&#8592;</button>
+      <span class="counter"><span class="current">1</span> / {images.length}</span>
+      <button class="next" aria-label="Next slide">&#8594;</button>
+    </div>
+  )}
+</div>
+
+<script define:vars={{ id }}>
+  const root = document.getElementById(id);
+  if (root) {
+    const track = root.querySelector(".slideshow-track");
+    const counter = root.querySelector(".current");
+    const slides = root.querySelectorAll(".slideshow-slide");
+    let current = 0;
+
+    function goTo(n) {
+      current = (n + slides.length) % slides.length;
+      track.scrollTo({ left: slides[current].offsetLeft, behavior: "smooth" });
+      if (counter) counter.textContent = current + 1;
+    }
+
+    root.querySelector(".prev")?.addEventListener("click", () => goTo(current - 1));
+    root.querySelector(".next")?.addEventListener("click", () => goTo(current + 1));
+
+    // Sync counter on manual scroll
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const idx = Array.from(slides).indexOf(e.target);
+            if (idx !== -1 && counter) counter.textContent = idx + 1;
+          }
+        });
+      },
+      { root: track, threshold: 0.6 }
+    );
+    slides.forEach((s) => observer.observe(s));
+  }
+</script>
+
+<style>
+  .slideshow {
+    margin: 1.5rem 0;
+  }
+
+  .slideshow-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 0;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+  }
+  .slideshow-track::-webkit-scrollbar { display: none; }
+
+  .slideshow-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    margin: 0;
+  }
+
+  .slideshow-slide img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .slideshow-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    font-size: 0.875rem;
+  }
+
+  .slideshow-controls button {
+    background: none;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+  }
+  .slideshow-controls button:hover { opacity: 1; }
+</style>

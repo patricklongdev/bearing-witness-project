@@ -1,0 +1,444 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const allProjects = await getCollection('projects');
+allProjects.sort((a, b) => a.data.order - b.data.order);
+
+const CATEGORIES = ['Aboriginal Rights', 'Treaty Rights', 'Prisoner Rights'];
+const byCategory = Object.fromEntries(
+  CATEGORIES.map(cat => [cat, allProjects.filter(p => p.data.category === cat)])
+);
+const uncategorised = allProjects.filter(p => !CATEGORIES.includes(p.data.category ?? ''));
+
+const allMediums = [...new Set(allProjects.flatMap(p => p.data.tags ?? []))].sort();
+const allYears   = [...new Set(allProjects.map(p => p.data.year).filter(Boolean))]
+                    .sort((a, b) => Number(b) - Number(a));
+const firstProject = allProjects[0];
+---
+
+<Layout title="Bearing Witness Project">
+  <div class="hero">
+    <div class="hero-heading">
+      <h1>Browse the Archive</h1>
+      <a href={`/projects/${firstProject.slug}/`} class="sequential-link">
+        Prefer to read sequentially? Start from the beginning →
+      </a>
+    </div>
+    <p>Browse {allProjects.length} student art projects by category, medium, or year.</p>
+  </div>
+
+  <div class="filters" id="filters">
+    <div class="filter-group">
+      <span class="filter-label">Category</span>
+      <div class="filter-chips">
+        <button class="chip active" data-filter="category" data-value="">All</button>
+        {CATEGORIES.map(cat => (
+          <button class="chip" data-filter="category" data-value={cat}>{cat}</button>
+        ))}
+      </div>
+    </div>
+
+    <div class="filter-group filter-group--year">
+      <span class="filter-label">Medium</span>
+      <select class="year-select" id="medium-select">
+        <option value="">All mediums</option>
+        {allMediums.map(m => (
+          <option value={m}>{m}</option>
+        ))}
+      </select>
+    </div>
+
+    <div class="filter-group filter-group--year">
+      <span class="filter-label">Year</span>
+      <select class="year-select" id="year-select">
+        <option value="">All years</option>
+        {allYears.map(y => (
+          <option value={y}>{y}</option>
+        ))}
+      </select>
+    </div>
+  </div>
+
+  {CATEGORIES.map(cat => (
+    <section class="category-section" data-section={cat}>
+      <h2 class="category-heading">{cat}</h2>
+      <div class="grid">
+        {byCategory[cat].map(project => {
+          const isBg = project.data.tags?.includes('Backgrounder');
+          return (
+            <a
+              href={`/projects/${project.slug}/`}
+              class={isBg ? 'card card--backgrounder' : 'card'}
+              data-category={project.data.category ?? ''}
+              data-tags={project.data.tags?.join(',') ?? ''}
+              data-year={project.data.year ?? ''}
+            >
+              {isBg ? (
+                <div class="card-thumb card-thumb--bg">
+                  <span class="bg-placeholder">Backgrounder</span>
+                </div>
+              ) : project.data.thumbnail ? (
+                <div class="card-thumb">
+                  <img src={project.data.thumbnail} alt={project.data.title} loading="lazy" />
+                </div>
+              ) : null}
+              <div class="card-body">
+                <h3 class="card-title">{project.data.title}</h3>
+                {isBg ? (
+                  <p class="card-author card-author--professor">By Professor Michael Jackson</p>
+                ) : (
+                  project.data.author && <p class="card-author">{project.data.author}</p>
+                )}
+                {!isBg && (
+                  <div class="card-meta">
+                    {project.data.year && <span class="year">{project.data.year}</span>}
+                    {project.data.tags && project.data.tags.map(tag => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+  ))}
+
+  {uncategorised.length > 0 && (
+    <section class="category-section" data-section="Other">
+      <h2 class="category-heading">Other</h2>
+      <div class="grid">
+        {uncategorised.map(project => {
+          const isBg = project.data.tags?.includes('Backgrounder');
+          return (
+          <a
+            href={`/projects/${project.slug}/`}
+            class={isBg ? 'card card--backgrounder' : 'card'}
+            data-category={project.data.category ?? ''}
+            data-tags={project.data.tags?.join(',') ?? ''}
+            data-year={project.data.year ?? ''}
+          >
+            {isBg ? (
+              <div class="card-thumb card-thumb--bg">
+                <span class="bg-placeholder">Backgrounder</span>
+              </div>
+            ) : project.data.thumbnail ? (
+              <div class="card-thumb">
+                <img src={project.data.thumbnail} alt={project.data.title} loading="lazy" />
+              </div>
+            ) : null}
+            <div class="card-body">
+              <h3 class="card-title">{project.data.title}</h3>
+              {isBg ? (
+                <p class="card-author card-author--professor">By Professor Michael Jackson</p>
+              ) : (
+                project.data.author && <p class="card-author">{project.data.author}</p>
+              )}
+            </div>
+          </a>
+          );
+        })}
+      </div>
+    </section>
+  )}
+
+  <div class="no-results" id="no-results" hidden>
+    <p>No projects match the selected filters.</p>
+  </div>
+</Layout>
+
+<script>
+  const active: Record<string, string> = { category: '', medium: '', year: '' };
+
+  function applyFilters() {
+    const cards = document.querySelectorAll<HTMLElement>('.card');
+    cards.forEach(card => {
+      const catOk  = !active.category || card.dataset.category === active.category;
+      const medOk  = !active.medium   || card.dataset.tags?.split(',').includes(active.medium);
+      const yearOk = !active.year     || card.dataset.year === active.year;
+      card.hidden = !(catOk && medOk && yearOk);
+    });
+
+    document.querySelectorAll<HTMLElement>('.category-section').forEach(section => {
+      const hasVisible = [...section.querySelectorAll<HTMLElement>('.card')].some(c => !c.hidden);
+      section.hidden = !hasVisible;
+    });
+
+    const anyVisible = [...cards].some(c => !c.hidden);
+    const noResults = document.getElementById('no-results');
+    if (noResults) noResults.hidden = anyVisible;
+  }
+
+  // Chip buttons (category only)
+  document.querySelectorAll<HTMLButtonElement>('.chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.filter!;
+      document.querySelectorAll<HTMLButtonElement>(`.chip[data-filter="${group}"]`)
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      active[group] = btn.dataset.value!;
+      applyFilters();
+    });
+  });
+
+  // Medium select
+  document.getElementById('medium-select')?.addEventListener('change', e => {
+    active.medium = (e.target as HTMLSelectElement).value;
+    applyFilters();
+  });
+
+  // Year select
+  document.getElementById('year-select')?.addEventListener('change', e => {
+    active.year = (e.target as HTMLSelectElement).value;
+    applyFilters();
+  });
+
+  // Apply filter from URL params (e.g. /projects/?category=Aboriginal+Rights)
+  const params = new URLSearchParams(window.location.search);
+  const urlCategory = params.get('category');
+  const urlMedium   = params.get('medium');
+  const urlYear     = params.get('year');
+
+  if (urlCategory) {
+    document.querySelector<HTMLButtonElement>(`.chip[data-filter="category"][data-value="${urlCategory}"]`)?.click();
+  }
+  if (urlMedium) {
+    const sel = document.getElementById('medium-select') as HTMLSelectElement;
+    if (sel) { sel.value = urlMedium; sel.dispatchEvent(new Event('change')); }
+  }
+  if (urlYear) {
+    const sel = document.getElementById('year-select') as HTMLSelectElement;
+    if (sel) { sel.value = urlYear; sel.dispatchEvent(new Event('change')); }
+  }
+</script>
+
+<style>
+  .hero {
+    padding: 3rem var(--page-pad) 2rem;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .hero-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: normal;
+    line-height: 1.2;
+    margin-bottom: 0;
+  }
+
+  .sequential-link {
+    font-size: 0.82rem;
+    color: var(--muted);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .sequential-link:hover { color: var(--ink); }
+
+  .hero p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 55ch;
+  }
+
+  /* ── Filters ── */
+  .filters {
+    padding: 0 var(--page-pad) 2rem;
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .filter-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 0.3rem;
+    white-space: nowrap;
+    min-width: 5rem;
+  }
+
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .chip {
+    font-size: 0.78rem;
+    font-family: var(--sans);
+    padding: 0.25rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+    line-height: 1.4;
+  }
+  .chip:hover { border-color: #aaa; }
+  .chip.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+  }
+
+  .filter-group--year {
+    align-items: center;
+  }
+
+  .year-select {
+    font-size: 0.78rem;
+    font-family: var(--sans);
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  /* ── Sections & grid ── */
+  .category-section {
+    padding: 1.5rem var(--page-pad) 3rem;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .category-heading {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    font-weight: normal;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    color: var(--ink);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    transition: box-shadow 0.15s, border-color 0.15s;
+  }
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    border-color: #bbb;
+  }
+
+  .card--backgrounder {
+    background: #f5f4f0;
+  }
+
+  .card-thumb--bg {
+    background: #eae7e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .bg-placeholder {
+    font-family: var(--serif);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8a8278;
+  }
+
+  .card-author--professor {
+    font-style: italic;
+  }
+
+  .card-thumb {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: #eee;
+  }
+  .card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+  .card:hover .card-thumb img { transform: scale(1.03); }
+
+  .card-body {
+    padding: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
+  }
+
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .card-author {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin-top: 0.25rem;
+  }
+
+  .year {
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    background: #f0ece6;
+    color: #555;
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+  }
+
+  .no-results {
+    padding: 4rem var(--page-pad);
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>

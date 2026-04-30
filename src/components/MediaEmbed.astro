@@ -1,0 +1,73 @@
+---
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+
+// Strip HTML entities and trailing punctuation from raw WP embed URLs
+const clean = url.replace(/&amp;/g, "&").replace(/[.\s]+$/, "").trim();
+
+let embedUrl = "";
+let title = "Embedded media";
+
+// VideoPress: https://videopress.com/v/ID?params
+const vpMatch = clean.match(/videopress\.com\/v\/([A-Za-z0-9]+)/);
+if (vpMatch) {
+  embedUrl = `https://videopress.com/embed/${vpMatch[1]}?hd=1&cover=true`;
+  title = "Video";
+}
+
+// YouTube: youtu.be/ID or youtube.com/watch?v=ID
+const ytMatch = clean.match(/(?:youtu\.be\/|youtube\.com\/watch\?v=)([A-Za-z0-9_-]+)/);
+if (ytMatch) {
+  embedUrl = `https://www.youtube.com/embed/${ytMatch[1]}`;
+  title = "YouTube video";
+}
+
+// SoundCloud: soundcloud.com/user/track
+const scMatch = clean.match(/soundcloud\.com\/[^\s?&]+/);
+if (scMatch) {
+  const encoded = encodeURIComponent(`https://${scMatch[0]}`);
+  embedUrl = `https://w.soundcloud.com/player/?url=${encoded}&color=%23ff5500&auto_play=false&hide_related=true&show_artwork=true`;
+  title = "SoundCloud audio";
+}
+---
+
+{embedUrl ? (
+  <div class="media-embed">
+    <iframe
+      src={embedUrl}
+      title={title}
+      allowfullscreen
+      loading="lazy"
+      allow="autoplay; fullscreen"
+    />
+  </div>
+) : (
+  <p><a href={clean} target="_blank" rel="noopener noreferrer">{clean}</a></p>
+)}
+
+<style>
+  .media-embed {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    margin: 1.5rem 0;
+  }
+
+  /* SoundCloud is a short fixed-height widget, not 16:9 */
+  .media-embed:has(iframe[src*="soundcloud"]) {
+    padding-bottom: 0;
+    height: 166px;
+  }
+
+  .media-embed iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+</style>

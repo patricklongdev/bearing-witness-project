@@ -1,0 +1,317 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const allProjects = await getCollection('projects');
+allProjects.sort((a, b) => a.data.order - b.data.order);
+
+const CATEGORIES = [
+  {
+    name: 'Aboriginal Rights',
+    description: 'Placeholder — a sentence or two introducing the Aboriginal Rights section of the archive and the themes explored across these projects.',
+  },
+  {
+    name: 'Treaty Rights',
+    description: 'Placeholder — a sentence or two introducing the Treaty Rights section and the range of student work collected here.',
+  },
+  {
+    name: 'Prisoner Rights',
+    description: 'Placeholder — a sentence or two introducing the Prisoner Rights section and what students have examined in this area.',
+  },
+];
+
+const featured = Object.fromEntries(
+  CATEGORIES.map(cat => [
+    cat.name,
+    allProjects.filter(p => p.data.category === cat.name).slice(0, 3),
+  ])
+);
+
+const firstProject = allProjects[0];
+---
+
+<Layout title="Bearing Witness Project">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="hero-label">University of British Columbia · Faculty of Law</p>
+      <h1 class="hero-title">Bearing<br />Witness<br />Project</h1>
+      <p class="hero-desc">An archive of student art exploring Indigenous rights,<br />treaty law, and the carceral state in Canada.</p>
+    </div>
+  </section>
+
+  <section class="intro">
+    <div class="intro-inner">
+      <p>Placeholder editorial introduction. A few sentences about the origins of the project, the students involved, and what this archive represents. This text sets the tone for what follows.</p>
+      <p>More placeholder text — perhaps about the pedagogical approach, or the relationship between law and artistic practice, or why visual and creative expression matters in a legal education context.</p>
+      <a href="/projects/" class="intro-link">Browse all {allProjects.length} projects →</a>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-inner">
+      <a href={`/projects/${firstProject.slug}/`} class="cta-btn">Read the Archive</a>
+      <p class="cta-sub">Follow the archive in the order Professor Jackson intended, from beginning to end.</p>
+    </div>
+  </section>
+
+  {CATEGORIES.map(cat => (
+    <section class="cat-section">
+      <div class="cat-header">
+        <h2 class="cat-name">{cat.name}</h2>
+        <p class="cat-desc">{cat.description}</p>
+      </div>
+      <div class="cat-grid">
+        {featured[cat.name].map(project => (
+          <a href={`/projects/${project.slug}/`} class="feat-card">
+            <div class="feat-thumb">
+              {project.data.thumbnail
+                ? <img src={project.data.thumbnail} alt={project.data.title} loading="lazy" />
+                : <div class="feat-thumb-placeholder" />}
+            </div>
+            <div class="feat-info">
+              <h3 class="feat-title">{project.data.title}</h3>
+              <p class="feat-meta">
+                {project.data.author && <span>{project.data.author}</span>}
+                {project.data.author && project.data.year && <span class="sep">·</span>}
+                {project.data.year && <span>{project.data.year}</span>}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="cat-footer">
+        <a href={`/projects/?category=${encodeURIComponent(cat.name)}`} class="cat-link">
+          All {cat.name} projects →
+        </a>
+      </div>
+    </section>
+  ))}
+
+</Layout>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    border-bottom: 1px solid var(--border);
+    padding: 8rem var(--page-pad) 6rem;
+  }
+
+  .hero-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .hero-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(4rem, 10vw, 9rem);
+    font-weight: normal;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 3rem;
+  }
+
+  .hero-desc {
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 48ch;
+  }
+
+  /* ── Introduction ── */
+  .intro {
+    padding: 6rem var(--page-pad);
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .intro-inner {
+    max-width: 60ch;
+    border-left: 2px solid var(--border);
+    padding-left: 2rem;
+  }
+
+  .intro-inner p {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--ink);
+    margin-bottom: 1.2em;
+  }
+
+  .intro-link {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    margin-top: 0.5rem;
+  }
+  .intro-link:hover { color: var(--accent); }
+
+  /* ── Read the Archive CTA ── */
+  .cta-section {
+    padding: 1.5rem var(--page-pad) 5rem;
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cta-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    font-family: var(--serif);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: normal;
+    letter-spacing: 0.01em;
+    color: #fff;
+    background: var(--ink);
+    text-decoration: none;
+    padding: 0.9rem 2.5rem;
+    border: 1px solid var(--ink);
+    transition: background 0.15s, color 0.15s;
+  }
+  .cta-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .cta-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    max-width: 40ch;
+    line-height: 1.6;
+  }
+
+  /* ── Category sections ── */
+  .cat-section {
+    padding: 4rem var(--page-pad) 5rem;
+    max-width: var(--max);
+    margin: 0 auto;
+    border-top: 1px solid var(--border);
+  }
+
+  .cat-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: baseline;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 700px) {
+    .cat-header { grid-template-columns: 1fr; gap: 0.75rem; }
+  }
+
+  .cat-name {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: normal;
+    color: var(--accent);
+    line-height: 1.2;
+  }
+
+  .cat-desc {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 55ch;
+  }
+
+  /* ── Featured cards ── */
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  @media (max-width: 800px) {
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 500px) {
+    .cat-grid { grid-template-columns: 1fr; }
+  }
+
+  .feat-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .feat-thumb {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: #e8e4e0;
+    margin-bottom: 0.9rem;
+  }
+
+  .feat-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+  .feat-card:hover .feat-thumb img { transform: scale(1.04); }
+
+  .feat-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    background: #e8e4e0;
+  }
+
+  .feat-info { padding: 0 0.1rem; }
+
+  .feat-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 0.3rem;
+    transition: color 0.15s;
+  }
+  .feat-card:hover .feat-title { color: var(--accent); }
+
+  .feat-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+  }
+  .sep { opacity: 0.4; }
+
+  /* ── Category footer link ── */
+  .cat-footer {
+    margin-top: 2rem;
+    text-align: right;
+  }
+
+  .cat-link {
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .cat-link:hover { color: var(--ink); }
+</style>
