@@ -151,7 +151,7 @@ const metaCols = metaCount === 4 ? 2 : Math.min(metaCount, 3);
       a.href = img.src;
       a.className = 'glightbox';
       a.dataset.gallery = 'project-images';
-      a.dataset.description = img.alt || '';
+      a.dataset.description = '';
       img.parentNode!.insertBefore(a, img);
       a.appendChild(img);
     });
