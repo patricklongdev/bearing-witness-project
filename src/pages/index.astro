@@ -318,8 +318,13 @@ const firstProject = allProjects[0];
   /* ── First intro paragraph hidden on all sizes ── */
   .intro-inner p:first-child { display: none; }
 
-  /* ── Mobile CTA (hidden on desktop) ── */
-  .hero-cta-mobile { display: none; }
+  /* ── Hero CTA ── */
+  .hero-cta-mobile {
+    display: inline-block;
+    margin-top: 2.5rem;
+    align-self: flex-start;
+  }
+  .cta-section { display: none; }
 
   /* ── Mobile hero rework ── */
   @media (max-width: 700px) {
@@ -354,8 +359,6 @@ const firstProject = allProjects[0];
     }
     .hero-cta-mobile {
       order: 4;
-      display: inline-block;
-      align-self: flex-start;
       margin-top: auto;
       padding-top: 2rem;
     }
