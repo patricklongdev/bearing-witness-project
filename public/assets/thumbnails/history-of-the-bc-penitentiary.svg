@@ -1,18 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
   <rect width="800" height="800" fill="#1e1b18"/>
-  <text x="56" y="310"
+  <text x="56" y="250"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="90"
     fill="#f0ebe4"
-    letter-spacing="-2">Insight</text>
-  <text x="56" y="416"
+    letter-spacing="-2">History of</text>
+  <text x="56" y="356"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="90"
     fill="#f0ebe4"
-    letter-spacing="-2">from the</text>
-  <text x="56" y="522"
+    letter-spacing="-2">the BC</text>
+  <text x="56" y="462"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="90"
     fill="#f0ebe4"
-    letter-spacing="-2">Prison</text>
+    letter-spacing="-2">Penitentiary</text>
 </svg>

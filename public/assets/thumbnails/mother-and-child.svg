@@ -1,18 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
   <rect width="800" height="800" fill="#1e1b18"/>
-  <text x="56" y="310"
+  <text x="56" y="280"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="90"
     fill="#f0ebe4"
-    letter-spacing="-2">Insight</text>
-  <text x="56" y="416"
+    letter-spacing="-2">Mother</text>
+  <text x="56" y="386"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="90"
     fill="#f0ebe4"
-    letter-spacing="-2">from the</text>
-  <text x="56" y="522"
+    letter-spacing="-2">and Child</text>
+  <text x="58" y="470"
     font-family="Georgia, 'Times New Roman', serif"
-    font-size="90"
-    fill="#f0ebe4"
-    letter-spacing="-2">Prison</text>
+    font-size="36"
+    fill="#8c8680">A Lived Experience</text>
 </svg>

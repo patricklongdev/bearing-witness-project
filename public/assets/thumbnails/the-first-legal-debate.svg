@@ -1,21 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
   <rect width="800" height="800" fill="#1e1b18"/>
-  <text x="56" y="260"
+  <text x="56" y="240"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="90"
     fill="#f0ebe4"
-    letter-spacing="-2">On Wings</text>
-  <text x="56" y="366"
+    letter-spacing="-2">The First</text>
+  <text x="56" y="346"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="90"
     fill="#f0ebe4"
-    letter-spacing="-2">of Change</text>
-  <text x="58" y="460"
+    letter-spacing="-2">Legal Debate</text>
+  <text x="58" y="440"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="36"
-    fill="#8c8680">The Nisga'a</text>
-  <text x="58" y="505"
+    fill="#8c8680">on the rights of</text>
+  <text x="58" y="485"
     font-family="Georgia, 'Times New Roman', serif"
     font-size="36"
-    fill="#8c8680">Final Agreement</text>
+    fill="#8c8680">Indigenous Peoples</text>
 </svg>
