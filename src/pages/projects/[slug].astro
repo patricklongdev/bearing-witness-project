@@ -79,7 +79,7 @@ const metaCols = metaCount === 4 ? 2 : Math.min(metaCount, 3);
           {pdf && (
             <div class="meta-cell">
               <span class="meta-label">Download</span>
-              <a class="meta-value meta-link" href={pdf} download>Download Project</a>
+              <a class="meta-value meta-link" href={pdf} target="_blank" rel="noopener noreferrer">Download Project</a>
             </div>
           )}
           {year && (
