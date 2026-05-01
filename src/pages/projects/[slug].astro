@@ -298,7 +298,7 @@ const metaCols = metaCount === 4 ? 2 : Math.min(metaCount, 3);
 
   .prose :global(.wp-block-gallery) {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     gap: 0.5rem;
     margin: 2em 0;
   }
