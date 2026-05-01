@@ -1,9 +1,8 @@
-local_backend: true
-
 backend:
   name: github
-  repo: your-org/bearing-witness-project  # ← update before deploying
+  repo: patricklongdev/bearing-witness-project
   branch: main
+  base_url: https://bwp-oauth.patrickdavidlong.workers.dev
 
 media_folder: "public/assets"
 public_folder: "/assets"
