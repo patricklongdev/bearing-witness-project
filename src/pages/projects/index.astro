@@ -239,7 +239,12 @@ const firstProject = allProjects[0];
   }
   .sequential-link:hover { color: var(--ink); }
 
+  @media (max-width: 640px) {
+    .sequential-link { display: none; }
+  }
+
   .hero p {
+    font-family: var(--serif);
     color: var(--muted);
     font-size: 1rem;
     max-width: 55ch;
@@ -341,14 +346,8 @@ const firstProject = allProjects[0];
     color: var(--ink);
     text-decoration: none;
     border: 1px solid var(--border);
-    border-radius: 4px;
     overflow: hidden;
     background: #fff;
-    transition: box-shadow 0.15s, border-color 0.15s;
-  }
-  .card:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    border-color: #bbb;
   }
 
   .card--backgrounder {
@@ -406,6 +405,7 @@ const firstProject = allProjects[0];
     flex-wrap: wrap;
     gap: 0.25rem;
     margin-top: 0.25rem;
+    align-items: center;
   }
 
   .year {
@@ -416,10 +416,10 @@ const firstProject = allProjects[0];
 
   .tag {
     font-size: 0.7rem;
-    background: #f0ece6;
+    background: transparent;
     color: #555;
     padding: 0.1rem 0.4rem;
-    border-radius: 2px;
+    border: 1px solid #bbb;
   }
 
   .no-results {
