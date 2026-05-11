@@ -121,16 +121,12 @@ collections:
         name: "thumbnail"
         widget: "image"
         required: false
-        media_folder: "/public/assets"
-        public_folder: "/assets"
         hint: "Featured image shown on the index card and at the top of the project page"
 
       - label: "PDF"
         name: "pdf"
         widget: "file"
         required: false
-        media_folder: "/public/assets"
-        public_folder: "/assets"
         hint: "Student's original PDF submission"
         accept: ".pdf"
 

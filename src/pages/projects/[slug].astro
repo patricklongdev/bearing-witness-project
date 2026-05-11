@@ -135,11 +135,10 @@ const metaCols = metaCount === 4 ? 2 : Math.min(metaCount, 3);
     </nav>
 
   </article>
-</Layout>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-<script is:inline>
+  <script is:inline src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+  <script is:inline>
+
   // is:inline keeps this as a plain blocking script — GLightbox CDN above has already run
   var imgs = document.querySelectorAll('.prose img');
   imgs.forEach(function(img) {
@@ -165,7 +164,8 @@ const metaCols = metaCount === 4 ? 2 : Math.min(metaCount, 3);
     loop: false,
     zoomable: false,
   });
-</script>
+  </script>
+</Layout>
 
 <style>
   .project {
