@@ -29,9 +29,25 @@ const metaCount = isBackgrounder
   ? [category, projectLink].filter(Boolean).length
   : [author, category, pdf, year, tags?.length, projectLink].filter(Boolean).length;
 const metaCols = metaCount === 4 ? 2 : Math.min(metaCount, 3);
+
+const projectSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'VisualArtwork',
+  name: title,
+  ...(excerpt && { description: excerpt }),
+  ...(author && { creator: { '@type': 'Person', name: author } }),
+  ...(year && { dateCreated: String(year) }),
+  ...(thumbnail && { image: new URL(thumbnail, 'https://bearingwitnessproject.ca').toString() }),
+  url: new URL(`/projects/${project.slug}/`, 'https://bearingwitnessproject.ca').toString(),
+  isPartOf: {
+    '@type': 'Collection',
+    name: 'Bearing Witness Project',
+    url: 'https://bearingwitnessproject.ca',
+  },
+};
 ---
 
-<Layout title={title} description={excerpt} thumbnail={thumbnail}>
+<Layout title={title} description={excerpt} thumbnail={thumbnail} schema={projectSchema}>
   <article class="project" data-pagefind-body>
 
     <div class="title-block">

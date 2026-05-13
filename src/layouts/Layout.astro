@@ -3,10 +3,26 @@ interface Props {
   title: string;
   description?: string;
   thumbnail?: string;
+  schema?: object;
 }
 
-const { title, description, thumbnail } = Astro.props;
+const { title, description, thumbnail, schema } = Astro.props;
 const siteName = 'Bearing Witness Project';
+const siteUrl = 'https://bearingwitnessproject.ca';
+const defaultDescription = 'An archive of student creative work exploring Indigenous rights, treaty law, and the rights of prisoners in Canada, curated by Professor Michael Jackson, OC, KC.';
+
+const pageTitle = title === siteName ? title : `${title} — ${siteName}`;
+const pageDescription = description || defaultDescription;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? siteUrl).toString();
+const ogImage = thumbnail ? new URL(thumbnail, siteUrl).toString() : `${siteUrl}/images/og-default.jpg`;
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  url: siteUrl,
+  description: defaultDescription,
+};
 ---
 
 <!doctype html>
@@ -14,9 +30,19 @@ const siteName = 'Bearing Witness Project';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title === siteName ? title : `${title} — ${siteName}`}</title>
-    {description && <meta name="description" content={description} />}
-    {thumbnail && <meta property="og:image" content={thumbnail} />}
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonicalUrl} />
+    <!-- Open Graph -->
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <!-- Structured data -->
+    <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
   </head>
