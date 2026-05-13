@@ -32,6 +32,15 @@ import Layout from '../layouts/Layout.astro';
     <p>The archive, although broad and deep in scope, is not presented as a comprehensive or complete analysis of the state of Indigenous and Prisoners' Rights. In my seminars many students chose the more traditional format of writing essays and commentaries on the jurisprudence, particularly on the important and exciting emergence of contemporary international human rights law with the UN Declaration of the Rights of Indigenous Peoples (UNDRIP) and its incorporation into Canadian law through both federal and provincial legislation. Many parts of these essays have found their way into legal arguments influencing the decisions of both Courts of Appeal and the Supreme Court of Canada, and while they represent critical legal thinking by students at the beginning of their legal careers, they make no claim to the artistic genre that the archive presents.</p>
     <p>Given that the projects cover over a quarter century of work, some of the analysis in particular projects reflects the state of the law at the time they were presented. Where there have been later developments in the jurisprudence and legislation I have through both footnotes and commentary provided updated information, but I would emphasize that the archive makes no claim to be, nor should it be relied upon as, a contemporary statement of law.</p>
 
+    <hr class="section-rule" />
+
+    <h2>About the Curator</h2>
+    <p>Professor Michael Jackson, OC, KC is Emeritus Professor of Law at the Peter A. Allard School of Law at the University of British Columbia, where he taught for [X] years. He has been one of Canada's leading advocates in the fields of Indigenous rights and criminal justice law for over five decades.</p>
+    <p>Professor Jackson has appeared as counsel before the Supreme Court of Canada in landmark cases concerning Aboriginal and Treaty Rights, including [case names]. He has served on [commissions/inquiries] and has been recognized for his contributions to [specific areas of law or policy].</p>
+    <p>He is the author of [key publications], which have shaped the development of both Indigenous rights jurisprudence and prisoners' rights law in Canada.</p>
+    <p>Professor Jackson was appointed to the Order of Canada in [year] in recognition of [citation language]. He holds the designation of King's Counsel.</p>
+    <p>The seminars on Aboriginal and Treaty Rights and Penal Policy that gave rise to this archive were taught by Professor Jackson at Allard School of Law from 1999 to 2023.</p>
+
   </div>
 </Layout>
 
@@ -49,6 +58,7 @@ import Layout from '../layouts/Layout.astro';
     font-family: var(--serif);
     font-size: clamp(1.8rem, 3.5vw, 2.6rem);
     font-weight: normal;
+    line-height: 1.2;
     letter-spacing: -0.02em;
     color: var(--ink);
     margin-bottom: 1.5rem;
@@ -57,10 +67,17 @@ import Layout from '../layouts/Layout.astro';
   h2 {
     font-family: var(--serif);
     font-size: clamp(1.1rem, 2vw, 1.4rem);
-    font-weight: normal;
-    color: var(--accent);
+    font-weight: bold;
+    line-height: 1.3;
+    color: var(--ink);
     margin-top: 3rem;
     margin-bottom: 1rem;
+  }
+
+  .section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 4rem 0 0;
   }
 
   p {
