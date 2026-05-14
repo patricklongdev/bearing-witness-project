@@ -250,10 +250,11 @@ const projectSchema = {
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-color: var(--border);
-    transition: text-decoration-color 0.15s;
+    transition: color 0.15s, text-decoration-color 0.15s;
   }
   .meta-link:hover {
-    text-decoration-color: var(--ink);
+    color: var(--accent);
+    text-decoration-color: var(--accent);
   }
 
   /* ── Body prose ── */
@@ -378,7 +379,9 @@ const projectSchema = {
     gap: 0.3rem;
     text-decoration: none;
     color: var(--ink);
+    transition: color 0.15s;
   }
+  .nav-link:hover { color: var(--accent); }
   .nav-link.next { text-align: right; }
 
   .nav-label {
