@@ -49,7 +49,10 @@ const websiteSchema = {
   <body>
     <header>
       <a href="/" class="site-logo" aria-label={siteName}>
-        <img src="/images/logo2.svg" alt={siteName} width="240" height="102" />
+        <picture>
+          <source media="(max-width: 640px)" srcset="/images/mobile_logo.svg" />
+          <img src="/images/main_logo.svg" alt={siteName} width="240" height="72" />
+        </picture>
       </a>
       <div class="nav-right">
         <nav class="site-nav" id="site-nav" aria-label="Main navigation">
