@@ -193,9 +193,9 @@ const websiteSchema = {
         if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
       });
 
-      // ── Transparent header on homepage ──
+      // ── Hide nav border until scrolled ──
       const header = document.querySelector('header');
-      if (header && window.location.pathname === '/') {
+      if (header) {
         const setTransparency = () => {
           header.classList.toggle('is-transparent', window.scrollY < 10);
         };
