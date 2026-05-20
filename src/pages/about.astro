@@ -1,5 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Slideshow from '../components/Slideshow.astro';
+
+const aboutImages = [
+  { src: '/images/about_02.jpg', alt: 'Projects assembled for documentation' },
+  { src: '/images/about_03.jpg', alt: 'Projects assembled for documentation' },
+  { src: '/images/about_05.jpg', alt: 'Projects assembled for documentation' },
+  { src: '/images/about_06.jpg', alt: 'Projects assembled for documentation' },
+  { src: '/images/about_07.jpg', alt: "Projects on display in Professor Jackson's office" },
+  { src: '/images/about_08.jpg', alt: "Projects on display in Professor Jackson's office" },
+  { src: '/images/about_09.jpg', alt: "Projects on display in Professor Jackson's office" },
+];
 ---
 
 <Layout title="About" description="About the Bearing Witness Project">
@@ -37,6 +48,8 @@ import Layout from '../layouts/Layout.astro';
     <p>I am also indebted to David Khang, a participant in my seminar on Aboriginal and Treaty Rights Litigation. In addition to his own project in the archive, David worked with me beginning in 2020, at the onset of the COVID-19 lockdown at the Allard Law School, in assembling and photographing the projects selected for the archive. David, an accomplished performance artist, in addition to his photo documentation, was able to provide a critical lens in determining how best to present the projects and has continued to help with their online visualization.</p>
     <p>As a preview of the archive, we show here photos of some of the projects assembled for the first time in one room during their documentation, and some projects on display in Professor Jackson's office at the Law School.</p>
 
+    <Slideshow images={aboutImages} />
+
     <hr class="section-rule" />
 
     <h2>About the Curator</h2>
@@ -47,6 +60,7 @@ import Layout from '../layouts/Layout.astro';
 
   </div>
 </Layout>
+
 
 <style>
   .page {
@@ -88,4 +102,5 @@ import Layout from '../layouts/Layout.astro';
     color: var(--ink);
     margin-bottom: 1.2em;
   }
+
 </style>
