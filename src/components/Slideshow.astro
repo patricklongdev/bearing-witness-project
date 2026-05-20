@@ -33,6 +33,7 @@ const id = `slideshow-${Math.random().toString(36).slice(2, 8)}`;
           <span class={`dot${i === 0 ? ' is-active' : ''}`} />
         ))}
       </div>
+      <span class="counter"><span class="current">1</span> of {images.length}</span>
       <button class="next" aria-label="Next slide">→</button>
     </div>
   )}
@@ -41,27 +42,32 @@ const id = `slideshow-${Math.random().toString(36).slice(2, 8)}`;
 <script define:vars={{ id }}>
   const root = document.getElementById(id);
   if (root) {
-    const track  = root.querySelector(".slideshow-track");
-    const slides = root.querySelectorAll(".slideshow-slide");
-    const dots   = root.querySelectorAll(".dot");
-    let current  = 0;
+    const track   = root.querySelector(".slideshow-track");
+    const slides  = root.querySelectorAll(".slideshow-slide");
+    const dots    = root.querySelectorAll(".dot");
+    const counter = root.querySelector(".current");
+    let current   = 0;
 
     function goTo(n) {
       current = (n + slides.length) % slides.length;
       track.scrollTo({ left: slides[current].offsetLeft, behavior: "smooth" });
       dots.forEach((d, i) => d.classList.toggle("is-active", i === current));
+      if (counter) counter.textContent = current + 1;
     }
 
     root.querySelector(".prev")?.addEventListener("click", () => goTo(current - 1));
     root.querySelector(".next")?.addEventListener("click", () => goTo(current + 1));
 
-    // Sync dots on manual scroll / swipe
+    // Sync dots and counter on manual scroll / swipe
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
             const idx = Array.from(slides).indexOf(e.target);
-            if (idx !== -1) dots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
+            if (idx !== -1) {
+              dots.forEach((d, i) => d.classList.toggle("is-active", i === idx));
+              if (counter) counter.textContent = idx + 1;
+            }
           }
         });
       },
@@ -138,4 +144,11 @@ const id = `slideshow-${Math.random().toString(36).slice(2, 8)}`;
     flex-shrink: 0;
   }
   .dot.is-active { background: var(--ink); }
+
+  .counter {
+    font-size: 0.7rem;
+    font-family: var(--sans);
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
 </style>
