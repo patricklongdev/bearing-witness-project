@@ -13,16 +13,18 @@ const id = `slideshow-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
 <div class="slideshow" id={id}>
-  <div class="slideshow-track">
-    {images.map((img, i) => (
-      <figure class="slideshow-slide">
-        <img
-          src={img.src}
-          alt={img.alt || ""}
-          loading={i === 0 ? "eager" : "lazy"}
-        />
-      </figure>
-    ))}
+  <div class="slideshow-viewport">
+    <div class="slideshow-track">
+      {images.map((img, i) => (
+        <figure class="slideshow-slide">
+          <img
+            src={img.src}
+            alt={img.alt || ""}
+            loading={i === 0 ? "eager" : "lazy"}
+          />
+        </figure>
+      ))}
+    </div>
   </div>
 
   {images.length > 1 && (
@@ -44,26 +46,24 @@ const id = `slideshow-${Math.random().toString(36).slice(2, 8)}`;
 
     function goTo(n) {
       current = (n + slides.length) % slides.length;
-      track.scrollTo({ left: slides[current].offsetLeft, behavior: "smooth" });
+      track.style.transform = `translateX(-${current * 100}%)`;
       if (counter) counter.textContent = current + 1;
+      // Eager-load the next image
+      const next = slides[current + 1];
+      if (next) { const img = next.querySelector("img"); if (img) img.loading = "eager"; }
     }
 
     root.querySelector(".prev")?.addEventListener("click", () => goTo(current - 1));
     root.querySelector(".next")?.addEventListener("click", () => goTo(current + 1));
 
-    // Sync counter on manual scroll / swipe
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            const idx = Array.from(slides).indexOf(e.target);
-            if (idx !== -1 && counter) counter.textContent = idx + 1;
-          }
-        });
-      },
-      { root: track, threshold: 0.6 }
-    );
-    slides.forEach((s) => observer.observe(s));
+    // Swipe support
+    let startX = 0;
+    const vp = root.querySelector(".slideshow-viewport");
+    vp.addEventListener("pointerdown", (e) => { startX = e.clientX; });
+    vp.addEventListener("pointerup",   (e) => {
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 40) goTo(dx < 0 ? current + 1 : current - 1);
+    });
   }
 </script>
 
@@ -72,19 +72,18 @@ const id = `slideshow-${Math.random().toString(36).slice(2, 8)}`;
     margin: 1.5rem 0;
   }
 
+  .slideshow-viewport {
+    overflow: hidden;
+  }
+
   .slideshow-track {
     display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    gap: 0;
-    scrollbar-width: none;
+    transition: transform 0.35s ease;
+    will-change: transform;
   }
-  .slideshow-track::-webkit-scrollbar { display: none; }
 
   .slideshow-slide {
     flex: 0 0 100%;
-    scroll-snap-align: start;
     margin: 0;
   }
 
@@ -107,7 +106,6 @@ const id = `slideshow-${Math.random().toString(36).slice(2, 8)}`;
     background: none;
     border: none;
     cursor: pointer;
-    /* generous touch target, small visible glyph */
     padding: 0.55rem 0.65rem;
     font-size: 0.7rem;
     font-family: var(--sans);
@@ -117,7 +115,7 @@ const id = `slideshow-${Math.random().toString(36).slice(2, 8)}`;
   }
   .slideshow-controls button:hover { color: var(--ink); }
 
-.counter {
+  .counter {
     font-size: 0.7rem;
     font-family: var(--sans);
     color: var(--muted);
