@@ -9,7 +9,7 @@ interface Props {
 const { title, description, thumbnail, schema } = Astro.props;
 const siteName = 'Bearing Witness Project';
 const siteUrl = 'https://bearingwitnessproject.ca';
-const defaultDescription = 'An archive of student creative work exploring Indigenous rights, treaty law, and the rights of prisoners in Canada, curated by Professor Michael Jackson, OC, KC.';
+const defaultDescription = 'An archive of student creative work exploring Indigenous rights, treaty law, and the rights of prisoners in Canada, curated by Professor Michael Jackson, KC.';
 
 const pageTitle = title === siteName ? title : `${title} — ${siteName}`;
 const pageDescription = description || defaultDescription;
@@ -89,7 +89,7 @@ const websiteSchema = {
     </main>
 
     <footer>
-      <p>A curated archive of student art projects exploring Indigenous rights and criminal justice by Professor Michael Jackson, OC, KC. &copy; 2026.</p>
+      <p>A curated archive of student art projects exploring Indigenous rights and criminal justice by Professor Michael Jackson, KC. &copy; 2026.</p>
     </footer>
 
     <script>
