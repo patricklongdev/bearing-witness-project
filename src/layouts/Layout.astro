@@ -82,6 +82,8 @@ const websiteSchema = {
       </div>
     </header>
 
+    <div class="backdrop" id="backdrop" hidden></div>
+
     <main>
       <slot />
     </main>
@@ -91,27 +93,55 @@ const websiteSchema = {
     </footer>
 
     <script>
-      const toggle = document.getElementById('nav-toggle');
-      const nav    = document.getElementById('site-nav');
-      toggle?.addEventListener('click', () => {
-        const open = nav!.classList.toggle('is-open');
-        toggle.setAttribute('aria-expanded', String(open));
-        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      });
-
-      // ── Search ──
+      const toggle        = document.getElementById('nav-toggle');
+      const nav           = document.getElementById('site-nav');
+      const backdrop      = document.getElementById('backdrop');
       const searchOverlay = document.getElementById('search-overlay');
       const searchToggle  = document.getElementById('search-toggle');
       let pagefindLoaded  = false;
 
+      // ── Backdrop ──
+      function showBackdrop() { if (backdrop) backdrop.hidden = false; }
+      function hideBackdrop() { if (backdrop) backdrop.hidden = true; }
+
+      // ── Internal silent close (no backdrop logic) ──
+      function _closeNav() {
+        nav?.classList.remove('is-open');
+        toggle?.setAttribute('aria-expanded', 'false');
+        toggle?.setAttribute('aria-label', 'Open menu');
+      }
+      function _closeSearch() {
+        if (!searchOverlay) return;
+        searchOverlay.hidden = true;
+        searchToggle?.setAttribute('aria-expanded', 'false');
+      }
+
+      // ── Nav ──
+      function openNav() {
+        _closeSearch();
+        nav?.classList.add('is-open');
+        toggle?.setAttribute('aria-expanded', 'true');
+        toggle?.setAttribute('aria-label', 'Close menu');
+        showBackdrop();
+      }
+      function closeNav() {
+        _closeNav();
+        if (searchOverlay?.hidden !== false) hideBackdrop();
+      }
+      toggle?.addEventListener('click', () => {
+        nav?.classList.contains('is-open') ? closeNav() : openNav();
+      });
+
+      // ── Search ──
       function openSearch() {
         if (!searchOverlay) return;
+        _closeNav();
         searchOverlay.hidden = false;
         searchToggle?.setAttribute('aria-expanded', 'true');
+        showBackdrop();
 
         if (!pagefindLoaded) {
           pagefindLoaded = true;
-
           const link = document.createElement('link');
           link.rel = 'stylesheet';
           link.href = '/pagefind/pagefind-ui.css';
@@ -132,26 +162,34 @@ const websiteSchema = {
           focusInput();
         }
       }
-
       function focusInput() {
         setTimeout(() => {
           searchOverlay?.querySelector<HTMLInputElement>('input[type="text"]')?.focus();
         }, 60);
       }
-
       function closeSearch() {
-        if (!searchOverlay) return;
-        searchOverlay.hidden = true;
-        searchToggle?.setAttribute('aria-expanded', 'false');
+        _closeSearch();
+        if (!nav?.classList.contains('is-open')) hideBackdrop();
       }
-
       searchToggle?.addEventListener('click', () => {
         searchOverlay?.hidden ? openSearch() : closeSearch();
       });
 
+      // ── Backdrop click closes everything ──
+      backdrop?.addEventListener('click', () => {
+        closeNav();
+        closeSearch();
+        hideBackdrop();
+      });
+
+      // ── Keyboard ──
       document.addEventListener('keydown', e => {
-        if (!searchOverlay) return;
-        if (e.key === 'Escape' && !searchOverlay.hidden) { closeSearch(); return; }
+        if (e.key === 'Escape') {
+          closeNav();
+          closeSearch();
+          hideBackdrop();
+          return;
+        }
         if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
       });
     </script>
@@ -161,6 +199,15 @@ const websiteSchema = {
 <style is:global>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   [hidden] { display: none !important; }
+
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(250, 250, 248, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 50;
+  }
 
   :root {
     --serif: Georgia, 'Times New Roman', serif;
@@ -187,6 +234,7 @@ const websiteSchema = {
   }
 
   header {
+    z-index: 60;
     position: relative;
     border-bottom: 1px solid var(--border);
     padding: 0.75rem var(--page-pad);
@@ -266,15 +314,13 @@ const websiteSchema = {
       gap: 0;
       z-index: 100;
     }
-    .site-nav.is-open { display: flex; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.14); }
+    .site-nav.is-open { display: flex; }
 
     .site-nav a {
       font-size: 1.275rem;
       width: 100%;
-      padding: 1rem var(--page-pad);
-      border-bottom: 1px solid var(--border);
+      padding: 0.6rem var(--page-pad);
     }
-    .site-nav a:last-child { border-bottom: none; }
   }
 
   main { flex: 1; }
@@ -303,7 +349,6 @@ const websiteSchema = {
     right: 0;
     background: var(--bg);
     border-bottom: 1px solid var(--border);
-    box-shadow: 0 4px 6px -2px rgba(0,0,0,0.14);
     z-index: 100;
     padding: 1.25rem var(--page-pad);
   }
@@ -324,15 +369,31 @@ const websiteSchema = {
     --pagefind-ui-font: system-ui, -apple-system, sans-serif;
   }
 
+  /* Borderless transparent input */
   .pagefind-ui__search-input {
+    border: none !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    padding-left: 2.25rem !important;
+    font-size: 1.15rem !important;
     caret-color: var(--ink);
     caret-shape: bar;
-    font-size: 1.15rem !important;
   }
   .pagefind-ui__search-input:focus {
-    border-color: #bbb !important;
-    outline: 1px solid #bbb !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
+
+  /* Larger icon, flush left, vertically centred */
+  .pagefind-ui__form::before {
+    width: 1.2rem !important;
+    height: 1.2rem !important;
+    top: 50% !important;
+    left: 0 !important;
+    transform: translateY(-50%) !important;
+  }
+
   .pagefind-ui__search-clear { display: none !important; }
   .pagefind-ui__filter-panel { border: none !important; padding: 0 0.1rem !important; }
 </style>
