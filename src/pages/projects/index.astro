@@ -22,7 +22,7 @@ const firstProject = allProjects[0];
     <div class="hero-heading">
       <h1>Browse the Archive</h1>
     </div>
-    <p>Browse more than 120 student art projects by category, medium, or year — or start at the beginning and follow the archive as curated by Professor Jackson.</p>
+    <p>Browse more than 120 student art projects by category — or start at the beginning and follow the archive as curated by Professor Jackson.</p>
   </div>
 
   <div class="filters" id="filters">
@@ -36,25 +36,7 @@ const firstProject = allProjects[0];
       </div>
     </div>
 
-    <div class="filter-group filter-group--year">
-      <span class="filter-label">Medium</span>
-      <select class="year-select" id="medium-select">
-        <option value="">All mediums</option>
-        {allMediums.map(m => (
-          <option value={m}>{m}</option>
-        ))}
-      </select>
-    </div>
 
-    <div class="filter-group filter-group--year">
-      <span class="filter-label">Year</span>
-      <select class="year-select" id="year-select">
-        <option value="">All years</option>
-        {allYears.map(y => (
-          <option value={y}>{y}</option>
-        ))}
-      </select>
-    </div>
   </div>
 
   {CATEGORIES.map(cat => (
