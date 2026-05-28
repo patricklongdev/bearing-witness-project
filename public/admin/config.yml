@@ -41,9 +41,9 @@ collections:
       - label: "Order"
         name: "order"
         widget: "number"
-        value_type: "int"
+        value_type: "float"
         min: 1
-        hint: "Display order within the archive (1–127)"
+        hint: "Display order within the archive. Decimals (e.g. 36.1) can be used to insert between two existing entries."
 
       - label: "Author"
         name: "author"
