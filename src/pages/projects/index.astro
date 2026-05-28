@@ -22,10 +22,13 @@ const firstProject = allProjects[0];
     <div class="hero-heading">
       <h1>Browse the Archive</h1>
     </div>
-    <p>Since visitors will have different interests in coming to Bearing Witness, it may be helpful to suggest the many ways to navigate the archive.</p>
-    <p>The way in which I have organized each of the three sections is thematic, and for those planning a deep dive, the archive is best viewed within each section in the chronological order in which the projects are presented.</p>
-    <p>While the archive is organized so that every project contributes to a cumulative appreciation of the spectrum of both artistic expression and the substantive human rights issues addressed, each project can also be viewed as its own unique contribution. Visitors with limited time are encouraged both to visit and revisit different projects.</p>
-    <p>While the archive is not curated into sections by different artistic forms, the search tool will enable interested visitors to search by genre across a range of artistic work — for example, painting, photo essay, stories, tapestry, ceremony, dance, and mixed media.</p>
+    <p>Since visitors will have different interests in coming to Bearing Witness, it may be helpful to suggest the many ways to navigate the site.</p>
+    <p>The way in which I have organized each of the three sections is thematic and the archive is best viewed within each section in the chronological order in which the projects are presented.</p>
+    <div class="hero-more" id="hero-more" aria-hidden="true">
+      <p>While the archive is organized so that every project contributes to a cumulative appreciation of the spectrum of both artistic expression and the substantive human rights issues addressed, each project can also be viewed as its own unique contribution. Visitors with limited time are encouraged both to visit and revisit different projects.</p>
+      <p>While the archive is not curated into sections by different artistic forms, the search tool will enable interested visitors to search by genre across a range of artistic work — for example, painting, photo essay, stories, tapestry, ceremony, dance, and mixed media.</p>
+    </div>
+    <button class="hero-toggle" id="hero-toggle" aria-expanded="false" aria-controls="hero-more">Read more</button>
   </div>
 
   <div class="filters" id="filters">
@@ -186,6 +189,17 @@ const firstProject = allProjects[0];
     const sel = document.getElementById('year-select') as HTMLSelectElement;
     if (sel) { sel.value = urlYear; sel.dispatchEvent(new Event('change')); }
   }
+
+  // Expand/collapse intro
+  const toggle = document.getElementById('hero-toggle');
+  const more   = document.getElementById('hero-more');
+  toggle?.addEventListener('click', () => {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!expanded));
+    toggle.textContent = expanded ? 'Read more' : 'Read less';
+    more?.classList.toggle('is-open', !expanded);
+    more?.setAttribute('aria-hidden', String(expanded));
+  });
 </script>
 
 <style>
@@ -234,6 +248,35 @@ const firstProject = allProjects[0];
     margin-bottom: 0.85em;
   }
   .hero p:last-child { margin-bottom: 0; }
+
+  .hero-more {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+  }
+  .hero-more.is-open {
+    max-height: 20rem;
+  }
+
+  .hero-toggle {
+    display: inline;
+    background: none;
+    border: none;
+    padding: 0;
+    margin-top: 0.5em;
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--muted);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border);
+    transition: color 0.15s, text-decoration-color 0.15s;
+  }
+  .hero-toggle:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
 
   /* ── Filters ── */
   .filters {
