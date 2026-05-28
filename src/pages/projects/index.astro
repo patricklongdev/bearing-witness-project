@@ -182,12 +182,12 @@ const firstProject = allProjects[0];
     document.querySelector<HTMLButtonElement>(`.chip[data-filter="category"][data-value="${urlCategory}"]`)?.click();
   }
   if (urlMedium) {
-    const sel = document.getElementById('medium-select') as HTMLSelectElement;
-    if (sel) { sel.value = urlMedium; sel.dispatchEvent(new Event('change')); }
+    active.medium = urlMedium;
+    applyFilters();
   }
   if (urlYear) {
-    const sel = document.getElementById('year-select') as HTMLSelectElement;
-    if (sel) { sel.value = urlYear; sel.dispatchEvent(new Event('change')); }
+    active.year = urlYear;
+    applyFilters();
   }
 
   // Expand/collapse intro
