@@ -5,7 +5,7 @@ import Layout from '../../layouts/Layout.astro';
 const allProjects = await getCollection('projects');
 allProjects.sort((a, b) => a.data.order - b.data.order);
 
-const CATEGORIES = ['Aboriginal Rights', 'Treaty Rights', 'Prisoner Rights'];
+const CATEGORIES = ['Aboriginal Rights', 'Treaty Rights', "Prisoners' Rights"];
 const byCategory = Object.fromEntries(
   CATEGORIES.map(cat => [cat, allProjects.filter(p => p.data.category === cat)])
 );
