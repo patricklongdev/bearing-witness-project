@@ -4,3 +4,5 @@ public/pagefind/
 .env
 .env.*
 .DS_Store
+public/assets/*.MP4
+public/assets/*.mp4
