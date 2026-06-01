@@ -209,13 +209,15 @@ const projectSchema = {
       '<button id="gl-zoom-out" aria-label="Zoom out" disabled>−</button>';
     document.querySelector('.gcontainer')?.appendChild(controls);
 
-    document.getElementById('gl-zoom-in').addEventListener('click', function() {
+    document.getElementById('gl-zoom-in').addEventListener('click', function(e) {
+      e.stopPropagation();
       var img = getActiveImg();
       if (!img) return;
       zoomScale = Math.min(zoomScale + ZOOM_STEP, ZOOM_MAX);
       applyZoom(img);
     });
-    document.getElementById('gl-zoom-out').addEventListener('click', function() {
+    document.getElementById('gl-zoom-out').addEventListener('click', function(e) {
+      e.stopPropagation();
       var img = getActiveImg();
       if (!img) return;
       zoomScale = Math.max(zoomScale - ZOOM_STEP, 1);
