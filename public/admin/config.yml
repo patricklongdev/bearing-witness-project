@@ -44,7 +44,7 @@ collections:
         value_type: "float"
         min: 1
         step: 0.1
-        hint: "Display order within the archive. Decimals (e.g. 36.1) can be used to insert between two existing entries."
+        hint: "Display order within the Archive. Decimals (e.g. 36.1) can be used to insert between two existing entries."
 
       - label: "Author"
         name: "author"
