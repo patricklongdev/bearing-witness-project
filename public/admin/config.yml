@@ -26,9 +26,12 @@ collections:
       - label: "Treaty Rights"
         field: category
         pattern: "Treaty Rights"
-      - label: "Prisoner Rights"
+      - label: "Prisoners' Rights"
         field: category
-        pattern: "Prisoner Rights"
+        pattern: "Prisoners' Rights"
+      - label: "Backgrounders (Michael Jackson)"
+        field: author
+        pattern: "Michael Jackson"
     fields:
       - label: "Title"
         name: "title"
@@ -58,7 +61,7 @@ collections:
         options:
           - "Aboriginal Rights"
           - "Treaty Rights"
-          - "Prisoner Rights"
+          - "Prisoners' Rights"
         required: false
 
       - label: "Medium / Tags"
