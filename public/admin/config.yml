@@ -143,4 +143,5 @@ collections:
       - label: "Body"
         name: "body"
         widget: "markdown"
-        hint: "Posts with slideshows or video embeds use custom MDX components — edit those in code rather than here"
+        modes: ["raw", "rich_text"]
+        hint: "Posts with slideshows or video embeds — switch to Raw mode before editing to avoid breaking custom components"
