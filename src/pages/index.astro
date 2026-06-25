@@ -9,17 +9,14 @@ const CATEGORIES = [
   {
     name: 'Aboriginal Rights',
     description: 'The projects in this section engage with the history, ongoing struggle, and legal recognition of Indigenous peoples\' rights in Canada. Students have responded through an extraordinary range of creative forms — from ceremonial textiles invoking Haida tradition, to illustrated legal histories, to works that draw directly on family and community experience.',
-    nav: 'Indigenous rights, title, and sovereignty',
   },
   {
     name: 'Treaty Rights',
     description: 'The projects in this section address the history and interpretation of treaty-making across centuries and jurisdictions. Students have reproduced ceremonial diplomatic instruments, produced illustrated commentaries on historical and modern treaties, and drawn on their own experience as citizens of Indigenous treaty nations or as non-Indigenous Canadians growing up on treaty land.',
-    nav: 'The history and interpretation of treaty-making',
   },
   {
     name: "Prisoners' Rights",
     description: 'The projects in this section explore the contemporary realities of imprisonment in Canada — the overrepresentation of Indigenous peoples, the experience of women in prison, and the continuing legacy of colonialism within the carceral system. Students have responded through work that takes us inside experiences that reports and commissions of inquiry cannot fully reach.',
-    nav: 'Incarceration, reform, and the carceral system',
   },
 ];
 
@@ -57,15 +54,6 @@ const featured = Object.fromEntries(
       <a href="/about/" class="intro-link">Learn more about the Archive →</a>
     </div>
   </section>
-
-  <nav class="cat-nav" aria-label="Browse by category">
-    {CATEGORIES.map(cat => (
-      <a href={`/projects/?category=${encodeURIComponent(cat.name)}`} class="cat-nav-item">
-        <span class="cat-nav-name">{cat.name}</span>
-        <span class="cat-nav-desc">{cat.nav}</span>
-      </a>
-    ))}
-  </nav>
 
   {CATEGORIES.map(cat => (
     <section class="cat-section">
@@ -223,73 +211,6 @@ const featured = Object.fromEntries(
   .intro-link:hover {
     color: var(--accent);
     text-decoration-color: var(--accent);
-  }
-
-  /* ── Three-way navigator ── */
-  .cat-nav {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 0 var(--page-pad);
-  }
-
-  .cat-nav-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    padding: 2rem 0;
-    text-decoration: none;
-    color: var(--ink);
-    border-right: 1px solid var(--border);
-    padding-right: 2rem;
-    transition: color 0.15s;
-  }
-  .cat-nav-item:last-child {
-    border-right: none;
-    padding-right: 0;
-    padding-left: 2rem;
-  }
-  .cat-nav-item:nth-child(2) {
-    padding-left: 2rem;
-  }
-  .cat-nav-item:hover { color: var(--accent); }
-
-  .cat-nav-name {
-    font-family: var(--serif);
-    font-size: 1rem;
-    font-weight: normal;
-    line-height: 1.3;
-  }
-
-  .cat-nav-desc {
-    font-family: var(--sans);
-    font-size: 0.75rem;
-    color: var(--muted);
-    line-height: 1.4;
-    transition: color 0.15s;
-  }
-  .cat-nav-item:hover .cat-nav-desc { color: var(--accent); }
-
-  @media (max-width: 600px) {
-    .cat-nav {
-      grid-template-columns: 1fr;
-    }
-    .cat-nav-item {
-      border-right: none;
-      border-bottom: 1px solid var(--border);
-      padding: 1.25rem 0;
-      padding-right: 0;
-    }
-    .cat-nav-item:last-child {
-      border-bottom: none;
-      padding-left: 0;
-    }
-    .cat-nav-item:nth-child(2) {
-      padding-left: 0;
-    }
   }
 
   /* ── Category sections ── */
