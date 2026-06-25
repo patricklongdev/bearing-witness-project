@@ -8,38 +8,38 @@ allProjects.sort((a, b) => a.data.order - b.data.order);
 const CATEGORIES = [
   {
     name: 'Aboriginal Rights',
-    description: "The projects in this section engage with the history, ongoing struggle, and legal recognition of Indigenous peoples' rights in Canada. Students have responded through an extraordinary range of creative forms — from ceremonial textiles invoking Haida tradition, to illustrated legal histories, to works that draw directly on family and community experience.",
+    description: "The projects in this section engage with the history, ongoing struggle, and legal recognition of Indigenous peoples' rights in Canada.",
     featured: {
       image: '/assets/2024/06/Rachel_Garrett_05-1.jpg',
       title: 'Resurgence',
       artist: 'Rachel Garrett',
       year: '2021',
       link: '/projects/resurgence/',
-      quote: 'Changing the medium in which legal analysis is presented permits us to describe some of the projects in the Archive not only as eloquent and elegant but also beautiful.',
+      quote: '“Changing the medium in which legal analysis is presented permits us to describe some of the projects in the Archive not only as eloquent and elegant but also beautiful.”',
     },
   },
   {
     name: 'Treaty Rights',
-    description: 'The projects in this section address the history and interpretation of treaty-making across centuries and jurisdictions. Students have reproduced ceremonial diplomatic instruments, produced illustrated commentaries on historical and modern treaties, and drawn on their own experience as citizens of Indigenous treaty nations or as non-Indigenous Canadians growing up on treaty land.',
+    description: 'The projects in this section address the history and interpretation of treaty-making across centuries and jurisdictions.',
     featured: {
       image: '/assets/2025/02/Krista_Johanson_01.jpg',
       title: 'Treaty of Lancaster, June, 1744',
       artist: 'Krista Johanson',
       year: '2009',
       link: '/projects/treaty-of-lancaster-june-1744/',
-      quote: 'Reading the published transcripts exposes a rich vein of intercultural communication — one that Canadian lawyers and judges have only now begun to discover.',
+      quote: '"Reading the published transcripts exposes a rich vein of intercultural communication — one that Canadian lawyers and judges have only now begun to discover."',
     },
   },
   {
     name: "Prisoners' Rights",
-    description: 'The projects in this section explore the contemporary realities of imprisonment in Canada — the overrepresentation of Indigenous peoples, the experience of women in prison, and the continuing legacy of colonialism within the carceral system. Students have responded through work that takes us inside experiences that reports and commissions of inquiry cannot fully reach.',
+    description: 'The projects in this section explore the contemporary realities of imprisonment in Canada — the overrepresentation of Indigenous peoples, the experience of women in prison, and the continuing legacy of colonialism within the carceral system.',
     featured: {
       image: '/assets/2016/06/Heather_Burley_01a.jpg',
       title: 'Freedom Flaunted',
       artist: 'Heather Burley',
       year: '2016',
       link: '/projects/freedom-flaunted/',
-      quote: 'Students have told me that the visit to Matsqui or Kent was the most enduring memory of their three years of law school.',
+      quote: '"Students have told me that the visit to Matsqui or Kent was the most enduring memory of their three years of law school."',
     },
   },
 ];
@@ -259,7 +259,7 @@ const CATEGORIES = [
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    align-items: center;
+    align-items: start;
     margin-bottom: 3rem;
   }
 
@@ -269,12 +269,14 @@ const CATEGORIES = [
   .feat-block-img {
     overflow: hidden;
     background: #e8e4e0;
+    aspect-ratio: 4 / 3;
   }
 
   .feat-block-img img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
+    object-fit: cover;
   }
 
   .feat-block-text {
