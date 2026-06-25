@@ -8,24 +8,41 @@ allProjects.sort((a, b) => a.data.order - b.data.order);
 const CATEGORIES = [
   {
     name: 'Aboriginal Rights',
-    description: 'The projects in this section engage with the history, ongoing struggle, and legal recognition of Indigenous peoples\' rights in Canada. Students have responded through an extraordinary range of creative forms — from ceremonial textiles invoking Haida tradition, to illustrated legal histories, to works that draw directly on family and community experience.',
+    description: "The projects in this section engage with the history, ongoing struggle, and legal recognition of Indigenous peoples' rights in Canada. Students have responded through an extraordinary range of creative forms — from ceremonial textiles invoking Haida tradition, to illustrated legal histories, to works that draw directly on family and community experience.",
+    featured: {
+      image: '/assets/2024/06/Rachel_Garrett_05-1.jpg',
+      title: 'Resurgence',
+      artist: 'Rachel Garrett',
+      year: '2021',
+      link: '/projects/resurgence/',
+      quote: 'Changing the medium in which legal analysis is presented permits us to describe some of the projects in the Archive not only as eloquent and elegant but also beautiful.',
+    },
   },
   {
     name: 'Treaty Rights',
     description: 'The projects in this section address the history and interpretation of treaty-making across centuries and jurisdictions. Students have reproduced ceremonial diplomatic instruments, produced illustrated commentaries on historical and modern treaties, and drawn on their own experience as citizens of Indigenous treaty nations or as non-Indigenous Canadians growing up on treaty land.',
+    featured: {
+      image: '/assets/2025/02/Krista_Johanson_01.jpg',
+      title: 'Treaty of Lancaster, June, 1744',
+      artist: 'Krista Johanson',
+      year: '2009',
+      link: '/projects/treaty-of-lancaster-june-1744/',
+      quote: 'Reading the published transcripts exposes a rich vein of intercultural communication — one that Canadian lawyers and judges have only now begun to discover.',
+    },
   },
   {
     name: "Prisoners' Rights",
     description: 'The projects in this section explore the contemporary realities of imprisonment in Canada — the overrepresentation of Indigenous peoples, the experience of women in prison, and the continuing legacy of colonialism within the carceral system. Students have responded through work that takes us inside experiences that reports and commissions of inquiry cannot fully reach.',
+    featured: {
+      image: '/assets/2016/06/Heather_Burley_01a.jpg',
+      title: 'Freedom Flaunted',
+      artist: 'Heather Burley',
+      year: '2016',
+      link: '/projects/freedom-flaunted/',
+      quote: 'Students have told me that the visit to Matsqui or Kent was the most enduring memory of their three years of law school.',
+    },
   },
 ];
-
-const featured = Object.fromEntries(
-  CATEGORIES.map(cat => [
-    cat.name,
-    allProjects.filter(p => p.data.category === cat.name).slice(0, 3),
-  ])
-);
 ---
 
 <Layout title="Life of Law as Art Project" description="An archive of Allard Law School students' original artwork exploring the rights of Indigenous peoples and the rights of Prisoners in Canada, curated by Professor Michael Jackson, KC.">
@@ -55,30 +72,22 @@ const featured = Object.fromEntries(
     </div>
   </section>
 
-  {CATEGORIES.map(cat => (
+  {CATEGORIES.map((cat, i) => (
     <section class="cat-section">
       <div class="cat-header">
         <h2 class="cat-name">{cat.name}</h2>
         <p class="cat-desc">{cat.description}</p>
       </div>
-      <div class="cat-grid">
-        {featured[cat.name].map(project => (
-          <a href={`/projects/${project.slug}/`} class="feat-card">
-            <div class="feat-thumb">
-              {project.data.thumbnail
-                ? <img src={project.data.thumbnail} alt={project.data.title} loading="lazy" />
-                : <div class="feat-thumb-placeholder" />}
-            </div>
-            <div class="feat-info">
-              <h3 class="feat-title">{project.data.title}</h3>
-              <p class="feat-meta">
-                {project.data.author && <span>{project.data.author}</span>}
-                {project.data.author && project.data.year && <span class="sep">·</span>}
-                {project.data.year && <span>{project.data.year}</span>}
-              </p>
-            </div>
-          </a>
-        ))}
+      <div class={`feat-block${i % 2 === 1 ? ' img-right' : ''}`}>
+        <div class="feat-block-img">
+          <img src={cat.featured.image} alt={cat.featured.title} loading="lazy" />
+        </div>
+        <div class="feat-block-text">
+          <h3 class="feat-project-title">{cat.featured.title}</h3>
+          <p class="feat-project-meta">{cat.featured.artist} · {cat.featured.year}</p>
+          <p class="feat-quote">{cat.featured.quote}</p>
+          <a href={cat.featured.link} class="cat-link">View this project →</a>
+        </div>
       </div>
       <div class="cat-footer">
         <a href={`/projects/?category=${encodeURIComponent(cat.name)}`} class="cat-link">
@@ -229,10 +238,6 @@ const featured = Object.fromEntries(
     margin-bottom: 3rem;
   }
 
-  @media (max-width: 700px) {
-    .cat-header { grid-template-columns: 1fr; gap: 0.75rem; }
-  }
-
   .cat-name {
     font-family: var(--serif);
     font-size: clamp(1.4rem, 2.5vw, 2rem);
@@ -249,76 +254,61 @@ const featured = Object.fromEntries(
     max-width: 55ch;
   }
 
-  /* ── Featured cards ── */
-  .cat-grid {
+  /* ── Featured block ── */
+  .feat-block {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-bottom: 3rem;
   }
 
-  @media (max-width: 800px) {
-    .cat-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 500px) {
-    .cat-grid { grid-template-columns: 1fr; }
-  }
+  .feat-block.img-right .feat-block-img { order: 2; }
+  .feat-block.img-right .feat-block-text { order: 1; }
 
-  .feat-card {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: var(--ink);
-  }
-
-  .feat-thumb {
-    aspect-ratio: 4 / 3;
+  .feat-block-img {
     overflow: hidden;
     background: #e8e4e0;
-    margin-bottom: 0.9rem;
   }
 
-  .feat-thumb img {
+  .feat-block-img img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
-    transition: transform 0.4s ease;
-  }
-  .feat-card:hover .feat-thumb img { transform: scale(1.04); }
-
-  .feat-thumb-placeholder {
-    width: 100%;
-    height: 100%;
-    background: #e8e4e0;
   }
 
-  .feat-info { padding: 0 0.1rem; }
-
-  .feat-title {
-    font-family: var(--serif);
-    font-size: 0.95rem;
-    font-weight: normal;
-    line-height: 1.35;
-    margin-bottom: 0.3rem;
-    transition: color 0.15s;
-  }
-  .feat-card:hover .feat-title { color: var(--accent); }
-
-  .feat-meta {
-    font-size: 0.8rem;
-    color: var(--muted);
+  .feat-block-text {
     display: flex;
-    gap: 0.4rem;
-    align-items: center;
-  }
-  .sep { opacity: 0.4; }
-
-  /* ── Category footer link ── */
-  .cat-footer {
-    margin-top: 2rem;
-    text-align: right;
+    flex-direction: column;
+    gap: 1rem;
   }
 
+  .feat-project-title {
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 2vw, 1.75rem);
+    font-weight: normal;
+    line-height: 1.25;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .feat-project-meta {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .feat-quote {
+    font-family: var(--serif);
+    font-size: clamp(1rem, 1.4vw, 1.2rem);
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0.5rem 0;
+  }
+
+  /* ── Shared link style ── */
   .cat-link {
     font-size: 0.85rem;
     font-weight: 400;
@@ -327,13 +317,21 @@ const featured = Object.fromEntries(
     text-underline-offset: 3px;
     text-decoration-color: var(--border);
     transition: color 0.15s, text-decoration-color 0.15s;
+    align-self: flex-start;
   }
   .cat-link:hover {
     color: var(--accent);
     text-decoration-color: var(--accent);
   }
 
-  /* ── Mobile hero ── */
+  /* ── Category footer link ── */
+  .cat-footer {
+    margin-top: 0;
+    text-align: right;
+  }
+  .cat-footer .cat-link { align-self: auto; }
+
+  /* ── Mobile ── */
   @media (max-width: 700px) {
     .hero {
       min-height: calc(100svh - 65px);
@@ -351,9 +349,7 @@ const featured = Object.fromEntries(
       font-size: 20vw;
       margin-bottom: 0;
     }
-    .hero-label {
-      display: none;
-    }
+    .hero-label { display: none; }
     .hero-desc {
       order: 3;
       font-size: 1rem;
@@ -366,5 +362,15 @@ const featured = Object.fromEntries(
       margin-top: auto;
       padding-top: 2rem;
     }
+
+    .cat-header { grid-template-columns: 1fr; gap: 0.75rem; }
+
+    .feat-block,
+    .feat-block.img-right {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .feat-block.img-right .feat-block-img { order: 0; }
+    .feat-block.img-right .feat-block-text { order: 1; }
   }
 </style>
