@@ -9,14 +9,17 @@ const CATEGORIES = [
   {
     name: 'Aboriginal Rights',
     description: 'The projects in this section engage with the history, ongoing struggle, and legal recognition of Indigenous peoples\' rights in Canada. Students have responded through an extraordinary range of creative forms — from ceremonial textiles invoking Haida tradition, to illustrated legal histories, to works that draw directly on family and community experience.',
+    nav: 'Indigenous rights, title, and sovereignty',
   },
   {
     name: 'Treaty Rights',
     description: 'The projects in this section address the history and interpretation of treaty-making across centuries and jurisdictions. Students have reproduced ceremonial diplomatic instruments, produced illustrated commentaries on historical and modern treaties, and drawn on their own experience as citizens of Indigenous treaty nations or as non-Indigenous Canadians growing up on treaty land.',
+    nav: 'The history and interpretation of treaty-making',
   },
   {
     name: "Prisoners' Rights",
     description: 'The projects in this section explore the contemporary realities of imprisonment in Canada — the overrepresentation of Indigenous peoples, the experience of women in prison, and the continuing legacy of colonialism within the carceral system. Students have responded through work that takes us inside experiences that reports and commissions of inquiry cannot fully reach.',
+    nav: 'Incarceration, reform, and the carceral system',
   },
 ];
 
@@ -26,8 +29,6 @@ const featured = Object.fromEntries(
     allProjects.filter(p => p.data.category === cat.name).slice(0, 3),
   ])
 );
-
-const firstProject = allProjects[0];
 ---
 
 <Layout title="Life of Law as Art Project" description="An archive of Allard Law School students' original artwork exploring the rights of Indigenous peoples and the rights of Prisoners in Canada, curated by Professor Michael Jackson, KC.">
@@ -37,22 +38,34 @@ const firstProject = allProjects[0];
       <p class="hero-label">Curated by Professor Michael Jackson, KC</p>
       <h1 class="hero-title">Life of Law<br />as Art</h1>
       <p class="hero-desc">An archive of Allard Law School students' original artwork exploring the rights of Indigenous peoples and the rights of Prisoners in Canada.</p>
-      <a href="/projects/" class="hero-cta-mobile cta-btn">Browse the Archive</a>
+      <a href="/about/" class="hero-intro-link">Begin with the introduction →</a>
+    </div>
+  </section>
+
+  <section class="thesis">
+    <div class="thesis-inner">
+      <blockquote class="pull-quote">
+        <p>Traditionally, we see art as apart from law — that is, we understand law as something other than artistic expression and vice versa. Once you start looking at law through the lens of creative expression, it quickly becomes apparent that art is not at the periphery but rather something core to law as a field of study and as a profession.</p>
+        <footer class="pull-quote-attr">Lorne Sossin, Dean of Osgoode Hall Law School</footer>
+      </blockquote>
     </div>
   </section>
 
   <section class="intro">
     <div class="intro-inner">
-      <p>The over 120 works collected here span the spectrum of artistic endeavour and include, paintings, collages, sculptures, lithographs, poetry, illustrated stories, weavings, embroidered tapestries, photo essays, documentary videos, ceramics, beading, jewellery, choreographed dances, original songs and music. They bear witness to how students in their creative work have opened their own minds to the contemporary realities of Indigenous rights and imprisonment in Canada, and in sharing through this archive, opened windows for the rest of us.</p>
+      <p>They bear witness to how students in their creative work have opened their own minds to the contemporary realities of Indigenous rights and imprisonment in Canada, and in sharing through this Archive, opened windows for the rest of us. The over 120 works collected here span the spectrum of artistic endeavour and include paintings, collages, sculptures, lithographs, poetry, illustrated stories, weavings, embroidered tapestries, photo essays, documentary videos, ceramics, beading, jewellery, choreographed dances, original songs and music. Each work is accompanied by curatorial commentary situating it in its legal and historical context.</p>
       <a href="/about/" class="intro-link">Learn more about the Archive →</a>
     </div>
   </section>
 
-  <section class="cta-section">
-    <div class="cta-inner">
-      <a href="/projects/" class="cta-btn">Browse the Archive</a>
-    </div>
-  </section>
+  <nav class="cat-nav" aria-label="Browse by category">
+    {CATEGORIES.map(cat => (
+      <a href={`/projects/?category=${encodeURIComponent(cat.name)}`} class="cat-nav-item">
+        <span class="cat-nav-name">{cat.name}</span>
+        <span class="cat-nav-desc">{cat.nav}</span>
+      </a>
+    ))}
+  </nav>
 
   {CATEGORIES.map(cat => (
     <section class="cat-section">
@@ -125,6 +138,56 @@ const firstProject = allProjects[0];
     color: var(--muted);
     line-height: 1.6;
     max-width: 48ch;
+    margin-bottom: 2rem;
+  }
+
+  .hero-intro-link {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border);
+    transition: color 0.15s, text-decoration-color 0.15s;
+  }
+  .hero-intro-link:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+
+  /* ── Thesis / Sossin quote ── */
+  .thesis {
+    border-bottom: 1px solid var(--border);
+    padding: 7rem var(--page-pad);
+  }
+
+  .thesis-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .pull-quote {
+    max-width: 52ch;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .pull-quote p {
+    font-family: var(--serif);
+    font-size: clamp(1.2rem, 2vw, 1.65rem);
+    line-height: 1.55;
+    color: var(--ink);
+    margin-bottom: 1.75rem;
+  }
+
+  .pull-quote-attr {
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
   }
 
   /* ── Introduction ── */
@@ -164,47 +227,71 @@ const firstProject = allProjects[0];
     text-decoration-color: var(--accent);
   }
 
-  /* ── Read the Archive CTA ── */
-  .cta-section {
-    padding: 1.5rem var(--page-pad) 5rem;
+  /* ── Three-way navigator ── */
+  .cat-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
     max-width: var(--max);
     margin: 0 auto;
-    display: flex;
-    justify-content: center;
+    padding: 0 var(--page-pad);
   }
 
-  .cta-inner {
+  .cat-nav-item {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    text-align: center;
-  }
-
-  .cta-btn {
-    display: inline-block;
-    font-family: var(--sans);
-    font-size: clamp(1rem, 1.5vw, 1.1rem);
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    color: #fff;
-    background: var(--ink);
+    gap: 0.4rem;
+    padding: 2rem 0;
     text-decoration: none;
-    padding: 0.9rem 2.5rem;
-    border: 1px solid var(--ink);
-    border-radius: 999px;
-    transition: background 0.15s, color 0.15s;
+    color: var(--ink);
+    border-right: 1px solid var(--border);
+    padding-right: 2rem;
+    transition: color 0.15s;
   }
-  .cta-btn:hover {
-    background: var(--accent);
-    border-color: var(--accent);
+  .cat-nav-item:last-child {
+    border-right: none;
+    padding-right: 0;
+    padding-left: 2rem;
+  }
+  .cat-nav-item:nth-child(2) {
+    padding-left: 2rem;
+  }
+  .cat-nav-item:hover { color: var(--accent); }
+
+  .cat-nav-name {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: normal;
+    line-height: 1.3;
   }
 
-  .cta-sub {
-    font-size: 0.85rem;
+  .cat-nav-desc {
+    font-family: var(--sans);
+    font-size: 0.75rem;
     color: var(--muted);
-    max-width: 40ch;
-    line-height: 1.6;
+    line-height: 1.4;
+    transition: color 0.15s;
+  }
+  .cat-nav-item:hover .cat-nav-desc { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .cat-nav {
+      grid-template-columns: 1fr;
+    }
+    .cat-nav-item {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 0;
+      padding-right: 0;
+    }
+    .cat-nav-item:last-child {
+      border-bottom: none;
+      padding-left: 0;
+    }
+    .cat-nav-item:nth-child(2) {
+      padding-left: 0;
+    }
   }
 
   /* ── Category sections ── */
@@ -328,15 +415,7 @@ const firstProject = allProjects[0];
     text-decoration-color: var(--accent);
   }
 
-/* ── Hero CTA ── */
-  .hero-cta-mobile {
-    display: inline-block;
-    margin-top: 2.5rem;
-    align-self: flex-start;
-  }
-  .cta-section { display: none; }
-
-  /* ── Mobile hero rework ── */
+  /* ── Mobile hero ── */
   @media (max-width: 700px) {
     .hero {
       min-height: calc(100svh - 65px);
@@ -364,14 +443,10 @@ const firstProject = allProjects[0];
       margin-top: 1.5rem;
       margin-bottom: 0;
     }
-    .hero-cta-mobile {
+    .hero-intro-link {
       order: 4;
       margin-top: auto;
       padding-top: 2rem;
-      font-size: 1rem;
-      padding: 0.7rem 2rem;
-      text-align: center;
     }
-    .cta-section { display: none; }
   }
 </style>
