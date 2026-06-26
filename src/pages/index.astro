@@ -53,7 +53,7 @@ const CATEGORIES = [
       <h1 class="hero-title">Life of Law<br />as Art</h1>
       <p class="hero-desc">An archive of Allard Law School students' original artwork exploring the rights of Indigenous peoples and the rights of Prisoners in Canada.</p>
       <a href="#thesis" class="scroll-cue" aria-label="Scroll to content">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M6 9l6 6 6-6"/>
         </svg>
       </a>
@@ -107,18 +107,26 @@ const CATEGORIES = [
     </section>
   ))}
 
+  <script>
+    document.querySelector('.scroll-cue')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('thesis')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+
 </Layout>
 
 <style>
   /* ── Hero ── */
   .hero {
-    border-bottom: 1px solid var(--border);
-    padding: 8rem var(--page-pad) 6rem;
+    padding: 8rem var(--page-pad) 0;
   }
 
   .hero-inner {
     max-width: var(--max);
     margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6rem;
   }
 
   .hero-label {
@@ -154,10 +162,11 @@ const CATEGORIES = [
   }
 
   .scroll-cue {
-    display: inline-flex;
+    display: block;
+    width: fit-content;
+    margin: 2.5rem auto 0;
     color: var(--muted);
     text-decoration: none;
-    margin-top: 2rem;
     animation: scroll-bob 2.2s ease-in-out infinite;
     transition: color 0.15s;
   }
@@ -169,13 +178,14 @@ const CATEGORIES = [
 
   /* ── Thesis / Sossin quote ── */
   .thesis {
-    border-bottom: 1px solid var(--border);
-    padding: 7rem var(--page-pad);
+    padding: 7rem var(--page-pad) 0;
   }
 
   .thesis-inner {
     max-width: var(--max);
     margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 7rem;
   }
 
   .pull-quote {
@@ -390,6 +400,8 @@ const CATEGORIES = [
     .scroll-cue {
       order: 4;
       margin-top: auto;
+      margin-left: auto;
+      margin-right: auto;
       padding-top: 2rem;
     }
 
