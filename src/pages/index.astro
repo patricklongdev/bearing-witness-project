@@ -52,11 +52,15 @@ const CATEGORIES = [
       <p class="hero-label">Curated by Professor Michael Jackson, KC</p>
       <h1 class="hero-title">Life of Law<br />as Art</h1>
       <p class="hero-desc">An archive of Allard Law School students' original artwork exploring the rights of Indigenous peoples and the rights of Prisoners in Canada.</p>
-      <a href="/about/" class="hero-intro-link">Begin with the introduction →</a>
+      <a href="#thesis" class="scroll-cue" aria-label="Scroll to content">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </a>
     </div>
   </section>
 
-  <section class="thesis">
+  <section class="thesis" id="thesis">
     <div class="thesis-inner">
       <blockquote class="pull-quote">
         <p>Traditionally, we see art as apart from law — that is, we understand law as something other than artistic expression and vice versa. Once you start looking at law through the lens of creative expression, it quickly becomes apparent that art is not at the periphery but rather something core to law as a field of study and as a profession.</p>
@@ -144,20 +148,23 @@ const CATEGORIES = [
     margin-bottom: 2rem;
   }
 
-  .hero-intro-link {
-    display: inline-block;
-    font-family: var(--sans);
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: var(--muted);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: var(--border);
-    transition: color 0.15s, text-decoration-color 0.15s;
+  @keyframes scroll-bob {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50%       { transform: translateY(5px); opacity: 0.9; }
   }
-  .hero-intro-link:hover {
-    color: var(--accent);
-    text-decoration-color: var(--accent);
+
+  .scroll-cue {
+    display: inline-flex;
+    color: var(--muted);
+    text-decoration: none;
+    margin-top: 2rem;
+    animation: scroll-bob 2.2s ease-in-out infinite;
+    transition: color 0.15s;
+  }
+  .scroll-cue:hover { color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue { animation: none; opacity: 0.5; }
   }
 
   /* ── Thesis / Sossin quote ── */
@@ -380,7 +387,7 @@ const CATEGORIES = [
       margin-top: 1.5rem;
       margin-bottom: 0;
     }
-    .hero-intro-link {
+    .scroll-cue {
       order: 4;
       margin-top: auto;
       padding-top: 2rem;
