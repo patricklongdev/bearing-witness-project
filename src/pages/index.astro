@@ -72,13 +72,6 @@ const CATEGORIES = [
   <section class="intro">
     <div class="intro-inner">
       <p>The students in these seminars, through their creative work, have opened their own minds to the contemporary realities of Indigenous rights and imprisonment in Canada, and in sharing it through this Archive, opened windows for the rest of us. The over 120 works collected here span the spectrum of artistic endeavour and include paintings, collages, sculptures, lithographs, poetry, illustrated stories, weavings, embroidered tapestries, photo essays, documentary videos, ceramics, beading, jewellery, choreographed dances, original songs and music. Each work is accompanied by curatorial commentary situating it in its legal and historical context.</p>
-      <nav class="intro-cats" aria-label="Browse by category">
-        <a href="/projects/?category=Aboriginal+Rights" class="intro-cat-link">Aboriginal Rights</a>
-        <span class="intro-cat-sep" aria-hidden="true">·</span>
-        <a href="/projects/?category=Treaty+Rights" class="intro-cat-link">Treaty Rights</a>
-        <span class="intro-cat-sep" aria-hidden="true">·</span>
-        <a href="/projects/?category=Prisoners%27+Rights" class="intro-cat-link">Prisoners' Rights</a>
-      </nav>
     </div>
   </section>
 
@@ -106,6 +99,10 @@ const CATEGORIES = [
       </div>
     </section>
   ))}
+
+  <div class="closing-link-wrap">
+    <a href="/about/" class="closing-link">Read the full introduction →</a>
+  </div>
 
   <script>
     document.querySelector('.scroll-cue')?.addEventListener('click', (e) => {
@@ -229,35 +226,28 @@ const CATEGORIES = [
     margin-bottom: 1.2em;
   }
 
-  .intro-cats {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem 0.6rem;
-    margin-top: 1.25rem;
+  /* ── Closing invitation link ── */
+  .closing-link-wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 5rem var(--page-pad) 6rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
   }
 
-  .intro-cat-link {
+  .closing-link {
     font-family: var(--sans);
-    font-size: 0.8rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--ink);
     text-decoration: underline;
-    text-underline-offset: 3px;
+    text-underline-offset: 4px;
     text-decoration-color: var(--border);
     transition: color 0.15s, text-decoration-color 0.15s;
   }
-  .intro-cat-link:hover {
+  .closing-link:hover {
     color: var(--accent);
     text-decoration-color: var(--accent);
-  }
-
-  .intro-cat-sep {
-    font-family: var(--sans);
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--ink);
-    line-height: 1;
   }
 
   /* ── Category sections ── */
