@@ -75,13 +75,17 @@ const CATEGORIES = [
     </div>
   </section>
 
-  {CATEGORIES.map((cat, i) => (
+  <div class="archive-lead">
+    <p>The Archive is organized in three parts, reflecting the themes of the seminars: Aboriginal Rights, Treaty Rights, and Prisoners' Rights.</p>
+  </div>
+
+  {CATEGORIES.map((cat) => (
     <section class="cat-section">
       <div class="cat-header">
         <h2 class="cat-name">{cat.name}</h2>
         <p class="cat-desc">{cat.description}</p>
       </div>
-      <div class={`feat-block${i % 2 === 1 ? ' img-right' : ''}`}>
+      <div class="feat-block">
         <div class="feat-block-img">
           <img src={cat.featured.image} alt={cat.featured.title} loading="lazy" />
         </div>
@@ -250,6 +254,21 @@ const CATEGORIES = [
     text-decoration-color: var(--accent);
   }
 
+  /* ── Archive lead-in ── */
+  .archive-lead {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 3rem var(--page-pad) 3.5rem;
+  }
+
+  .archive-lead p {
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 60ch;
+  }
+
   /* ── Category sections ── */
   .cat-section {
     padding: 4rem var(--page-pad) 5rem;
@@ -259,11 +278,7 @@ const CATEGORIES = [
   }
 
   .cat-header {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-    align-items: start;
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
   }
 
   .cat-name {
@@ -280,6 +295,7 @@ const CATEGORIES = [
     color: var(--muted);
     line-height: 1.7;
     max-width: 55ch;
+    margin-top: 0.5rem;
   }
 
   /* ── Featured block ── */
@@ -290,9 +306,6 @@ const CATEGORIES = [
     align-items: start;
     margin-bottom: 3rem;
   }
-
-  .feat-block.img-right .feat-block-img { order: 2; }
-  .feat-block.img-right .feat-block-text { order: 1; }
 
   .feat-block-img {
     overflow: hidden;
@@ -395,14 +408,9 @@ const CATEGORIES = [
       padding-top: 2rem;
     }
 
-    .cat-header { grid-template-columns: 1fr; gap: 0.75rem; }
-
-    .feat-block,
-    .feat-block.img-right {
+    .feat-block {
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
-    .feat-block.img-right .feat-block-img { order: 0; }
-    .feat-block.img-right .feat-block-text { order: 1; }
   }
 </style>
