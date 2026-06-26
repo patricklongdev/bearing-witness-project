@@ -72,12 +72,9 @@ const CATEGORIES = [
   <section class="intro">
     <div class="intro-inner">
       <p>The students in these seminars, through their creative work, have opened their own minds to the contemporary realities of Indigenous rights and imprisonment in Canada, and in sharing it through this Archive, opened windows for the rest of us. The over 120 works collected here span the spectrum of artistic endeavour and include paintings, collages, sculptures, lithographs, poetry, illustrated stories, weavings, embroidered tapestries, photo essays, documentary videos, ceramics, beading, jewellery, choreographed dances, original songs and music. Each work is accompanied by curatorial commentary situating it in its legal and historical context.</p>
+      <p>The Archive is organized in three parts, reflecting the themes of the seminars: Aboriginal Rights, Treaty Rights, and Prisoners' Rights.</p>
     </div>
   </section>
-
-  <div class="archive-lead">
-    <p>The Archive is organized in three parts, reflecting the themes of the seminars: Aboriginal Rights, Treaty Rights, and Prisoners' Rights.</p>
-  </div>
 
   {CATEGORIES.map((cat) => (
     <section class="cat-section">
@@ -252,21 +249,6 @@ const CATEGORIES = [
   .closing-link:hover {
     color: var(--accent);
     text-decoration-color: var(--accent);
-  }
-
-  /* ── Archive lead-in ── */
-  .archive-lead {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 3rem var(--page-pad) 3.5rem;
-  }
-
-  .archive-lead p {
-    font-family: var(--serif);
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--muted);
-    max-width: 60ch;
   }
 
   /* ── Category sections ── */
