@@ -48,15 +48,24 @@ const CATEGORIES = [
 <Layout title="Life of Law as Art Project" description="An archive of Allard Law School students' original artwork exploring the rights of Indigenous peoples and the rights of Prisoners in Canada, curated by Professor Michael Jackson, KC.">
 
   <section class="hero">
-    <div class="hero-inner">
-      <p class="hero-label">Curated by Professor Michael Jackson, KC</p>
-      <h1 class="hero-title">Life of Law<br />as Art</h1>
-      <p class="hero-desc">An archive of Allard Law School students' original artwork exploring the rights of Indigenous peoples and the rights of Prisoners in Canada.</p>
-      <a href="#thesis" class="scroll-cue" aria-label="Scroll to content">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M6 9l6 6 6-6"/>
-        </svg>
-      </a>
+    <div class="hero-layout">
+      <div class="hero-text-col">
+        <p class="hero-label">Curated by Professor Michael Jackson, KC</p>
+        <h1 class="hero-title">Life of Law<br />as Art</h1>
+        <p class="hero-desc">An archive of Allard Law School students' original artwork exploring the rights of Indigenous peoples and the rights of Prisoners in Canada.</p>
+        <a href="#thesis" class="scroll-cue" aria-label="Scroll to content">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </a>
+      </div>
+      <figure class="hero-artwork">
+        <picture>
+          <source media="(min-width: 701px)" srcset="/images/desktop_hero.jpg" />
+          <img src="/images/mobile_hero.jpg" alt="Detail from Robes of Power, a button blanket by Nadia Belokopitov" />
+        </picture>
+        <figcaption class="hero-credit">Detail from <em>Robes of Power</em>, Nadia Belokopitov, 1999</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -117,14 +126,21 @@ const CATEGORIES = [
 <style>
   /* ── Hero ── */
   .hero {
-    padding: 8rem var(--page-pad) 0;
+    min-height: calc(100svh - var(--header-h));
   }
 
-  .hero-inner {
-    max-width: var(--max);
-    margin: 0 auto;
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1fr clamp(260px, 33vw, 500px);
+    min-height: calc(100svh - var(--header-h));
+  }
+
+  .hero-text-col {
+    padding: 8rem var(--page-pad) 6rem;
+    padding-right: clamp(2rem, 4vw, 5rem);
     border-bottom: 1px solid var(--border);
-    padding-bottom: 6rem;
+    display: flex;
+    flex-direction: column;
   }
 
   .hero-label {
@@ -173,6 +189,38 @@ const CATEGORIES = [
   @media (prefers-reduced-motion: reduce) {
     .scroll-cue { animation: none; opacity: 0.5; }
   }
+
+  /* ── Hero artwork band ── */
+  .hero-artwork {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  .hero-artwork img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .hero-credit {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    padding: 3rem 1rem 0.7rem;
+    background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.45));
+    font-family: var(--sans);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.88);
+  }
+
+  .hero-credit em { font-style: italic; }
 
   /* ── Thesis / Sossin quote ── */
   .thesis {
@@ -358,14 +406,14 @@ const CATEGORIES = [
 
   /* ── Mobile ── */
   @media (max-width: 700px) {
-    .hero {
+    .hero-layout {
+      display: block;
+      min-height: unset;
+    }
+    .hero-text-col {
       min-height: calc(100svh - 65px);
       padding: 5rem var(--page-pad) 4rem;
-      display: flex;
-      flex-direction: column;
-    }
-    .hero-inner {
-      flex: 1;
+      border-bottom: none;
       display: flex;
       flex-direction: column;
     }
@@ -388,6 +436,10 @@ const CATEGORIES = [
       margin-left: auto;
       margin-right: auto;
       padding-top: 2rem;
+    }
+    .hero-artwork {
+      aspect-ratio: 4 / 1;
+      border-bottom: 1px solid var(--border);
     }
 
     .feat-block {
