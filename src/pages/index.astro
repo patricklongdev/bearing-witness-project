@@ -78,31 +78,35 @@ const CATEGORIES = [
 
   {CATEGORIES.map((cat) => (
     <section class="cat-section">
-      <div class="cat-header">
-        <h2 class="cat-name">{cat.name}</h2>
-        <p class="cat-desc">{cat.description}</p>
-      </div>
-      <div class="feat-block">
-        <div class="feat-block-img">
-          <img src={cat.featured.image} alt={cat.featured.title} loading="lazy" />
+      <div class="cat-inner">
+        <div class="cat-header">
+          <h2 class="cat-name">{cat.name}</h2>
+          <p class="cat-desc">{cat.description}</p>
         </div>
-        <div class="feat-block-text">
-          <h3 class="feat-project-title">{cat.featured.title}</h3>
-          <p class="feat-project-meta">{cat.featured.artist} · {cat.featured.year}</p>
-          <p class="feat-quote">{cat.featured.quote}</p>
-          <a href={cat.featured.link} class="cat-link">View this project →</a>
+        <div class="feat-block">
+          <div class="feat-block-img">
+            <img src={cat.featured.image} alt={cat.featured.title} loading="lazy" />
+          </div>
+          <div class="feat-block-text">
+            <h3 class="feat-project-title">{cat.featured.title}</h3>
+            <p class="feat-project-meta">{cat.featured.artist} · {cat.featured.year}</p>
+            <p class="feat-quote">{cat.featured.quote}</p>
+            <a href={cat.featured.link} class="cat-link">View this project →</a>
+          </div>
         </div>
-      </div>
-      <div class="cat-footer">
-        <a href={`/projects/?category=${encodeURIComponent(cat.name)}`} class="cat-link">
-          All {cat.name} projects →
-        </a>
+        <div class="cat-footer">
+          <a href={`/projects/?category=${encodeURIComponent(cat.name)}`} class="cat-link">
+            All {cat.name} projects →
+          </a>
+        </div>
       </div>
     </section>
   ))}
 
-  <div class="closing-link-wrap">
-    <a href="/about/" class="closing-link">Read Professor Jackson's full introduction →</a>
+  <div class="closing-link-outer">
+    <div class="closing-link-wrap">
+      <a href="/about/" class="closing-link">Read Professor Jackson's full introduction →</a>
+    </div>
   </div>
 
   <script>
@@ -228,10 +232,14 @@ const CATEGORIES = [
   }
 
   /* ── Closing invitation link ── */
+  .closing-link-outer {
+    padding: 0 var(--page-pad);
+  }
+
   .closing-link-wrap {
     max-width: var(--max);
     margin: 0 auto;
-    padding: 5rem var(--page-pad) 6rem;
+    padding: 5rem 0 6rem;
     border-top: 1px solid var(--border);
     text-align: center;
   }
@@ -253,10 +261,14 @@ const CATEGORIES = [
 
   /* ── Category sections ── */
   .cat-section {
-    padding: 4rem var(--page-pad) 5rem;
+    padding: 0 var(--page-pad) 5rem;
+  }
+
+  .cat-inner {
     max-width: var(--max);
     margin: 0 auto;
     border-top: 1px solid var(--border);
+    padding-top: 4rem;
   }
 
   .cat-header {
