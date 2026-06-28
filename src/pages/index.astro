@@ -72,9 +72,13 @@ const CATEGORIES = [
   <section class="intro">
     <div class="intro-inner">
       <p>Over more than two decades of seminars, law students chose art over the traditional written paper to engage the realities of Indigenous rights and imprisonment in Canada. Together their work opens a window onto experiences that legal argument alone rarely reaches. Each piece pairs the student's own artist statement with curatorial commentary situating the work in its legal and historical context.</p>
-      <p>The Archive is organized in three parts, reflecting the themes of the seminars: Aboriginal Rights, Treaty Rights, and Prisoners' Rights.</p>
+      <a href="/about/" class="intro-link">Read Professor Jackson's full introduction →</a>
     </div>
   </section>
+
+  <div class="section-lead-wrap">
+    <p class="section-lead">The Archive is organized in three parts, reflecting the themes of the seminars: Aboriginal Rights, Treaty Rights, and Prisoners' Rights.</p>
+  </div>
 
   {CATEGORIES.map((cat) => (
     <section class="cat-section">
@@ -105,7 +109,7 @@ const CATEGORIES = [
 
   <div class="closing-link-outer">
     <div class="closing-link-wrap">
-      <a href="/about/" class="closing-link">Read Professor Jackson's full introduction →</a>
+      <a href="/projects/" class="closing-link">Browse the full Archive →</a>
     </div>
   </div>
 
@@ -229,6 +233,38 @@ const CATEGORIES = [
     line-height: 1.8;
     color: var(--ink);
     margin-bottom: 1.2em;
+  }
+
+  /* ── Intro link ── */
+  .intro-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border);
+    transition: color 0.15s, text-decoration-color 0.15s;
+  }
+  .intro-link:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+
+  /* ── Section lead-in ── */
+  .section-lead-wrap {
+    padding: 3rem var(--page-pad) 0;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .section-lead {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.7;
   }
 
   /* ── Closing invitation link ── */
