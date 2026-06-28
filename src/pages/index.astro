@@ -76,13 +76,10 @@ const CATEGORIES = [
     </div>
   </section>
 
-  <div class="section-lead-wrap">
-    <p class="section-lead">The Archive is organized in three parts, reflecting the themes of the seminars: Aboriginal Rights, Treaty Rights, and Prisoners' Rights.</p>
-  </div>
-
-  {CATEGORIES.map((cat) => (
+  {CATEGORIES.map((cat, i) => (
     <section class="cat-section">
       <div class="cat-inner">
+        {i === 0 && <p class="section-lead">The Archive is organized in three parts, reflecting the themes of the seminars: Aboriginal Rights, Treaty Rights, and Prisoners' Rights.</p>}
         <div class="cat-header">
           <h2 class="cat-name">{cat.name}</h2>
           <p class="cat-desc">{cat.description}</p>
@@ -254,17 +251,12 @@ const CATEGORIES = [
   }
 
   /* ── Section lead-in ── */
-  .section-lead-wrap {
-    padding: 3rem var(--page-pad) 0;
-    max-width: var(--max);
-    margin: 0 auto;
-  }
-
   .section-lead {
     font-family: var(--serif);
     font-size: 1rem;
     color: var(--muted);
     line-height: 1.7;
+    margin-bottom: 2.5rem;
   }
 
   /* ── Closing invitation link ── */
