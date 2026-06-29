@@ -417,9 +417,9 @@ const projectSchema = {
     line-height: 1.6;
   }
   .prose :global(.wp-block-footnotes li),
-  .prose :global(.footnotes li) { margin-bottom: 0.5em; }
+  .prose :global(.footnotes li) { margin-bottom: 0.5em; overflow-wrap: break-word; word-break: break-word; }
   .prose :global(.wp-block-footnotes a),
-  .prose :global(.footnotes a) { color: var(--muted); }
+  .prose :global(.footnotes a) { color: var(--muted); overflow-wrap: break-word; word-break: break-word; }
   /* Hide the auto-generated "Footnotes" heading from remark-gfm */
   .prose :global(.footnotes > h2) { display: none; }
   .prose :global(.footnotes ol) { padding-left: 1.2em; }
