@@ -63,7 +63,8 @@ const CATEGORIES = [
   <section class="thesis" id="thesis">
     <div class="thesis-inner">
       <blockquote class="pull-quote">
-        <p>For most people, lawyers included, Law and Art lie at opposite ends of human imagination and endeavour. The world's great institutions of art are revered sites to visit and leave reinvigorated; the halls of justice much less so. However, if we open our imagination to see law through the lens of artistic expression, rather than being polar opposites, Art opens us to new experiences and understanding of the Law in its broadest historical, political and cultural contexts.</p>
+        <span class="pull-quote-mark" aria-hidden="true">&ldquo;</span>
+        <p>For most people, lawyers included, Law and Art lie at opposite ends of human imagination. The world’s great institutions of art leave us reinvigorated; the halls of justice much less so. Yet seen through the lens of artistic expression, art opens us to new understanding of the Law in its broadest historical, political and cultural contexts.</p>
         <footer class="pull-quote-attr">Professor Michael Jackson</footer>
       </blockquote>
     </div>
@@ -197,8 +198,20 @@ const CATEGORIES = [
     text-align: center;
   }
 
+  .pull-quote-mark {
+    display: block;
+    font-family: 'Source Serif 4 Display', 'Source Serif 4', Georgia, serif;
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    font-weight: 500;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.35;
+    margin-bottom: -0.5rem;
+  }
+
   .pull-quote p {
     font-family: var(--serif);
+    font-style: italic;
     font-size: clamp(1.2rem, 2vw, 1.65rem);
     line-height: 1.55;
     color: var(--ink);
