@@ -60,6 +60,23 @@ const CATEGORIES = [
     </div>
   </section>
 
+  <div class="banner-outer">
+    <figure class="banner-inner">
+      <picture>
+        <source media="(min-width: 701px)" srcset="/images/desktop_hero_01.jpg" />
+        <img
+          src="/images/mobile_hero_01.jpg"
+          width="553"
+          height="369"
+          loading="eager"
+          fetchpriority="high"
+          alt="Detail from Nadia Belokopitov's 'Robes of Power', a red-and-white Haida work showing totem figures, a forest treeline, and the spines of Canadian legal texts including the Criminal Code, the Indian Act, and the Constitution."
+        />
+      </picture>
+      <figcaption class="banner-caption">Nadia Belokopitov, 1999</figcaption>
+    </figure>
+  </div>
+
   <section class="thesis" id="thesis">
     <div class="thesis-inner">
       <blockquote class="pull-quote">
@@ -178,6 +195,36 @@ const CATEGORIES = [
 
   @media (prefers-reduced-motion: reduce) {
     .scroll-cue { animation: none; opacity: 0.5; }
+  }
+
+  /* ── Homepage banner ── */
+  .banner-outer {
+    padding: 4rem var(--page-pad);
+  }
+
+  .banner-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+
+  .banner-inner img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 553 / 369;
+  }
+
+  @media (min-width: 701px) {
+    .banner-inner img {
+      aspect-ratio: 2000 / 369;
+    }
+  }
+
+  .banner-caption {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
   }
 
   /* ── Thesis / Sossin quote ── */
