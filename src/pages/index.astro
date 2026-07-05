@@ -52,7 +52,7 @@ const CATEGORIES = [
       <p class="hero-label">Curated by Professor Michael Jackson, KC</p>
       <h1 class="hero-title">Life of Law<br />as Art</h1>
       <p class="hero-desc">An archive of Allard Law School students' original artwork exploring the rights of Indigenous peoples and the rights of Prisoners in Canada.</p>
-      <a href="#thesis" class="scroll-cue" aria-label="Scroll to content">
+      <a href="#banner" class="scroll-cue" aria-label="Scroll to content">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M6 9l6 6 6-6"/>
         </svg>
@@ -60,7 +60,7 @@ const CATEGORIES = [
     </div>
   </section>
 
-  <div class="banner-outer">
+  <div class="banner-outer" id="banner">
     <figure class="banner-inner">
       <picture>
         <source media="(min-width: 701px)" srcset="/images/desktop_hero_01.jpg" />
@@ -131,7 +131,7 @@ const CATEGORIES = [
   <script>
     document.querySelector('.scroll-cue')?.addEventListener('click', (e) => {
       e.preventDefault();
-      document.getElementById('thesis')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('banner')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   </script>
 
@@ -146,7 +146,6 @@ const CATEGORIES = [
   .hero-inner {
     max-width: var(--max);
     margin: 0 auto;
-    border-bottom: 1px solid var(--border);
     padding-bottom: 6rem;
   }
 
@@ -199,7 +198,8 @@ const CATEGORIES = [
 
   /* ── Homepage banner ── */
   .banner-outer {
-    padding: 4rem var(--page-pad);
+    padding: 0 var(--page-pad) 2rem;
+    scroll-margin-top: var(--header-h);
   }
 
   .banner-inner {
@@ -229,7 +229,7 @@ const CATEGORIES = [
 
   /* ── Thesis / Sossin quote ── */
   .thesis {
-    padding: 7rem var(--page-pad) 0;
+    padding: 3.5rem var(--page-pad) 0;
   }
 
   .thesis-inner {
