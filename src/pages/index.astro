@@ -97,7 +97,9 @@ const CATEGORIES = [
   {CATEGORIES.map((cat, i) => (
     <section class="cat-section">
       <div class="cat-inner">
-        {i === 0 && <p class="section-lead">The Archive is organized in three parts, reflecting the themes of the seminars: Aboriginal Rights, Treaty Rights, and Prisoners' Rights.</p>}
+        {i === 0 && (
+          <p class="section-lead">The Archive is organized in three parts, reflecting the themes of the seminars: {CATEGORIES.map((c, ci) => (<><a href={`/projects/?category=${encodeURIComponent(c.name)}`} class="section-lead-link">{c.name}</a>{ci < CATEGORIES.length - 2 ? ', ' : ci === CATEGORIES.length - 2 ? ', and ' : '.'}</>))}</p>
+        )}
         <div class="cat-header">
           <h2 class="cat-name">{cat.name}</h2>
           <p class="cat-desc">{cat.description}</p>
@@ -163,6 +165,7 @@ const CATEGORIES = [
     font-weight: 500;
     line-height: 1.0;
     letter-spacing: -0.02em;
+    text-indent: -0.06em;
     color: var(--ink);
     margin-bottom: 4rem;
   }
@@ -319,6 +322,18 @@ const CATEGORIES = [
     color: var(--muted);
     line-height: 1.7;
     margin-bottom: 2.5rem;
+  }
+
+  .section-lead-link {
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border);
+    transition: color 0.15s, text-decoration-color 0.15s;
+  }
+  .section-lead-link:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
   }
 
   /* ── Closing invitation link ── */
