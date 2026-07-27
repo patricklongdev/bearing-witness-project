@@ -374,6 +374,8 @@ const websiteSchema = {
     border-bottom: 1px solid var(--border);
     z-index: 100;
     padding: 1.25rem var(--page-pad);
+    max-height: calc(100vh - var(--header-h));
+    overflow-y: auto;
   }
 
   .search-modal {
