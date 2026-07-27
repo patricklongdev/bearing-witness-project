@@ -410,13 +410,15 @@ const websiteSchema = {
     box-shadow: none !important;
   }
 
-  /* Larger icon, flush left, vertically centred */
+  /* Larger icon, flush left, vertically centred within the input row
+     (fixed offset, not 50% — the form element also contains the results
+     list, so a percentage-based top would drift down as results grow) */
   .pagefind-ui__form::before {
     width: 1.2rem !important;
     height: 1.2rem !important;
-    top: 50% !important;
+    top: calc((64px * var(--pagefind-ui-scale) - 1.2rem) / 2) !important;
     left: 0 !important;
-    transform: translateY(-50%) !important;
+    transform: none !important;
   }
 
   .pagefind-ui__search-clear { display: none !important; }
