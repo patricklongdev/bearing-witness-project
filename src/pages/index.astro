@@ -201,13 +201,21 @@ const CATEGORIES = [
 
   /* ── Homepage banner ── */
   .banner-outer {
-    padding: 0 0 2rem;
+    padding: 0 var(--page-pad) 2rem;
     scroll-margin-top: var(--header-h);
   }
 
+  /* Mobile: same margin as page content (page-pad + max-width column). */
   .banner-inner {
-    max-width: none;
+    max-width: var(--max);
     margin: 0 auto;
+  }
+
+  /* Desktop: same margin as the top nav (fixed page-pad inset, no max-width cap). */
+  @media (min-width: 701px) {
+    .banner-inner {
+      max-width: none;
+    }
   }
 
   .banner-inner img {
