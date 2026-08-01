@@ -399,6 +399,26 @@ const projectSchema = {
     display: block;
   }
 
+  /* Two images side by side on desktop, stacked on mobile */
+  .prose :global(.image-pair) {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin: 2em 0;
+  }
+
+  .prose :global(.image-pair img) {
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  @media (min-width: 601px) {
+    .prose :global(.image-pair) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
   .prose :global(audio) { width: 100%; margin: 1.5em 0; }
 
   .prose :global(hr) {
