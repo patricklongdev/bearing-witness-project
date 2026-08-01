@@ -399,23 +399,32 @@ const projectSchema = {
     display: block;
   }
 
-  /* Two images side by side on desktop, stacked on mobile */
-  .prose :global(.image-pair) {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    margin: 2em 0;
+  /* Two images: side by side on desktop, slideshow on mobile.
+     Both markups render; CSS shows only the one for the current breakpoint. */
+  .prose :global(.image-pair-desktop) {
+    display: none;
   }
 
-  .prose :global(.image-pair img) {
-    width: 100%;
-    height: auto;
-    margin: 0;
+  .prose :global(.image-pair-mobile) {
+    display: block;
   }
 
   @media (min-width: 601px) {
-    .prose :global(.image-pair) {
+    .prose :global(.image-pair-desktop) {
+      display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 2em 0;
+    }
+
+    .prose :global(.image-pair-desktop img) {
+      width: 100%;
+      height: auto;
+      margin: 0;
+    }
+
+    .prose :global(.image-pair-mobile) {
+      display: none;
     }
   }
 

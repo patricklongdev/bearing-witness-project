@@ -8,14 +8,20 @@ tags:
 year: "2014"
 thumbnail: /assets/2014/02/Grant_Sikkes_01.jpg
 ---
+import Slideshow from '../../components/Slideshow.astro';
+
 Grant Sikkes for his project for the Penal Policy seminar in 2014 chose as the template for his paper mosaic the photo taken by my son, ShaneJackson, that was used for the cover of *Justice behind the Walls: Human Rights in Canadian Prisons*, Titled "Pieces of a Man" Grant examines the impact of administrative segregation.
 
-<div class="image-pair">
+<div class="image-pair-desktop">
 
 ![Grant Sikkes's 2014 mosaic project titled "Pieces of a Man"](/assets/2014/02/Grant_Sikkes_02.jpg)
 
 ![Shane Jackson's 1999 photo from the cover of "Justice Behind the Walls"](/assets/2014/02/Grant_Sikkes_03.jpg)
 
+</div>
+
+<div class="image-pair-mobile">
+<Slideshow images={[{"src": "/assets/2014/02/Grant_Sikkes_02.jpg", "alt": "Grant Sikkes's 2014 mosaic project titled \"Pieces of a Man\""}, {"src": "/assets/2014/02/Grant_Sikkes_03.jpg", "alt": "Shane Jackson's 1999 photo from the cover of \"Justice Behind the Walls\""}]} />
 </div>
 
 In his accompanying essay Grant explains why he chose mosaic as his medium.
