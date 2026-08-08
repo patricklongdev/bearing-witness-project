@@ -6,8 +6,14 @@ const FORMSPREE_ID = 'XXXXXXXX';
 ---
 
 <Layout title="Contact" description="Contact the Life of Law as Art Project">
+  <div class="title-header">
+    <div class="title-block">
+      <h1>Contact</h1>
+    </div>
+    <hr class="divider" />
+  </div>
+
   <div class="page">
-    <h1>Contact</h1>
     <p class="intro">For inquiries about the Life of Law as Art Project, to request permission to use materials from the Archive, or to get in touch with Professor Jackson, please use the form below.</p>
 
     <form id="contact-form" action={`https://formspree.io/f/${FORMSPREE_ID}`} method="POST" novalidate>
@@ -74,19 +80,38 @@ const FORMSPREE_ID = 'XXXXXXXX';
 </script>
 
 <style>
+  /* ── Title (matches the project-page / Introduction / Archive title treatment) ── */
+  .title-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--page-pad);
+  }
+
+  .title-block {
+    padding: 5rem 0 1rem;
+  }
+
+  .title-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: normal;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 0;
+    max-width: 18ch;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
   .page {
     max-width: 56ch;
     margin: 0 auto;
     padding: 5rem var(--page-pad) 6rem;
-  }
-
-  h1 {
-    font-family: var(--serif);
-    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-    font-weight: normal;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    margin-bottom: 1.5rem;
   }
 
   .intro {
