@@ -17,11 +17,12 @@ const allYears   = [...new Set(allProjects.map(p => p.data.year).filter(Boolean)
 const firstProject = allProjects[0];
 ---
 
-<Layout title="Browse the Archive" description="Browse more than 120 student art projects exploring Indigenous rights, treaty law, and the rights of prisoners in Canada.">
+<Layout title="The Archive" description="Browse more than 120 student art projects exploring Indigenous rights, treaty law, and the rights of prisoners in Canada.">
   <div class="hero">
-    <div class="hero-heading">
-      <h1>Browse the Archive</h1>
+    <div class="title-block">
+      <h1>The Archive</h1>
     </div>
+    <hr class="divider" />
     <p>Since visitors will have different interests in coming to Life of Law as Art, it may be helpful to suggest the many ways to navigate the site.</p>
     <p>The three sections are organized thematically, and the Archive is best viewed within each section in the chronological order in which the projects are presented.</p>
     <div class="hero-more" id="hero-more" aria-hidden="true">
@@ -204,26 +205,35 @@ const firstProject = allProjects[0];
 
 <style>
   .hero {
-    padding: 3rem var(--page-pad) 2rem;
-    max-width: var(--max);
+    padding: 0 var(--page-pad) 2rem;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
-  .hero-heading {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.5rem 2rem;
-    margin-bottom: 0.75rem;
+  /* ── Title (matches the project-page / Introduction title treatment) ── */
+  .title-block {
+    padding: 5rem 0 1rem;
   }
 
   .hero h1 {
     font-family: var(--serif);
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-size: clamp(2.4rem, 5vw, 4rem);
     font-weight: normal;
-    line-height: 1.2;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
     margin-bottom: 0;
+    max-width: 18ch;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .divider + p {
+    margin-top: 2rem;
   }
 
   .sequential-link {
