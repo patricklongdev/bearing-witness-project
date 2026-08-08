@@ -1,0 +1,109 @@
+---
+interface Props {
+  videoId: string;
+  poster: string;
+  alt?: string;
+  label?: string;
+}
+
+const {
+  videoId,
+  poster,
+  alt = "Video poster",
+  label = "Play video",
+} = Astro.props;
+
+const id = `yt-facade-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<div class="yt-facade" id={id} data-video-id={videoId}>
+  <button type="button" class="yt-facade-btn" aria-label={label}>
+    <img src={poster} alt={alt} loading="lazy" />
+    <span class="yt-play-icon" aria-hidden="true">
+      <svg viewBox="0 0 68 48" width="68" height="48">
+        <path d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.28 5.42 6.06C12.21 47.74 34 47.9 34 47.9s21.79-.16 27.1-1.58c2.93-.78 4.64-3.13 5.42-6.06C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z" fill="rgba(0,0,0,0.75)"/>
+        <path d="M45 24 27 14v20" fill="#fff"/>
+      </svg>
+    </span>
+  </button>
+</div>
+
+<script define:vars={{ id }}>
+  const root = document.getElementById(id);
+  if (root) {
+    const btn = root.querySelector(".yt-facade-btn");
+    const activate = () => {
+      const videoId = root.dataset.videoId;
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1`;
+      iframe.title = "YouTube video player";
+      iframe.setAttribute("frameborder", "0");
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+      iframe.allowFullscreen = true;
+      root.innerHTML = "";
+      root.appendChild(iframe);
+    };
+    btn.addEventListener("click", activate);
+  }
+</script>
+
+<style>
+  .yt-facade {
+    position: relative;
+    width: 100%;
+    max-width: 42rem;
+    aspect-ratio: 16 / 9;
+    margin: 1.5rem 0;
+    overflow: hidden;
+    background: var(--border);
+  }
+
+  .yt-facade iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .yt-facade-btn {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    display: block;
+  }
+
+  .yt-facade-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .yt-play-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .yt-play-icon svg {
+    width: 4.25rem;
+    height: auto;
+    transition: transform 0.15s ease;
+  }
+
+  .yt-facade-btn:hover .yt-play-icon svg,
+  .yt-facade-btn:focus-visible .yt-play-icon svg {
+    transform: scale(1.08);
+  }
+
+  .yt-facade-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+</style>

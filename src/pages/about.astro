@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Slideshow from '../components/Slideshow.astro';
+import YouTubeFacade from '../components/YouTubeFacade.astro';
 
 const aboutImages = [
   { src: '/images/about_01.jpg', alt: 'Projects assembled for documentation' },
@@ -16,6 +17,28 @@ const aboutImages = [
 ---
 
 <Layout title="About" description="About the Life of Law as Art Project">
+  <div class="intro-header">
+    <div class="title-block">
+      <h1 class="intro-title">Introduction</h1>
+    </div>
+
+    <hr class="divider" />
+
+    <p class="intro-lede">
+      Professor Michael Jackson, KC, curator of the Archive, on the collection and the seminars from which it grew.
+      {/* PLACEHOLDER — pending Professor Jackson's sign-off; wording may change. */}
+    </p>
+
+    <YouTubeFacade
+      videoId="K9ordeyTr_s"
+      poster="/images/intro-video-poster.jpg"
+      alt="Professor Michael Jackson"
+      label="Play video: Professor Jackson introduces the Archive"
+    />
+
+    <hr class="divider" />
+  </div>
+
   <div class="page">
     <div class="prose">
 
@@ -166,6 +189,43 @@ const aboutImages = [
 </script>
 
 <style>
+  /* ── Intro header (mirrors the project-page title/divider layout) ── */
+  .intro-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--page-pad);
+  }
+
+  .intro-header .title-block {
+    padding: 5rem 0 1rem;
+  }
+
+  .intro-title {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: normal;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 0;
+    max-width: 18ch;
+  }
+
+  .intro-header .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .intro-lede {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--ink);
+    max-width: 42rem;
+    margin: 2rem 0 0;
+  }
+
   .page {
     max-width: var(--max);
     margin: 0 auto;
