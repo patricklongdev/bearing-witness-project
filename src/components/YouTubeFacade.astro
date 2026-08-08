@@ -40,6 +40,11 @@ const id = `yt-facade-${Math.random().toString(36).slice(2, 8)}`;
       iframe.setAttribute("frameborder", "0");
       iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
       iframe.allowFullscreen = true;
+      // Astro's scoped CSS doesn't reach elements created at runtime, so size it inline.
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.style.border = "0";
+      iframe.style.display = "block";
       root.innerHTML = "";
       root.appendChild(iframe);
     };
