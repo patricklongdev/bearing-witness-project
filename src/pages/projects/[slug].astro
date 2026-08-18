@@ -37,12 +37,12 @@ const projectSchema = {
   ...(excerpt && { description: excerpt }),
   ...(author && { creator: { '@type': 'Person', name: author } }),
   ...(year && { dateCreated: String(year) }),
-  ...(thumbnail && { image: new URL(thumbnail, 'https://bearingwitnessproject.ca').toString() }),
-  url: new URL(`/projects/${project.slug}/`, 'https://bearingwitnessproject.ca').toString(),
+  ...(thumbnail && { image: new URL(thumbnail, Astro.site).toString() }),
+  url: new URL(`/projects/${project.slug}/`, Astro.site).toString(),
   isPartOf: {
     '@type': 'Collection',
     name: 'Life of Law as Art Project',
-    url: 'https://bearingwitnessproject.ca',
+    url: Astro.site?.origin,
   },
 };
 ---

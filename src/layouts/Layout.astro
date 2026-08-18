@@ -8,19 +8,19 @@ interface Props {
 
 const { title, description, thumbnail, schema } = Astro.props;
 const siteName = 'Life of Law as Art Project';
-const siteUrl = 'https://bearingwitnessproject.ca';
+const siteUrl = Astro.site ?? new URL('https://lawasart.ca');
 const defaultDescription = 'An archive of student creative work exploring Indigenous rights, treaty law, and the rights of prisoners in Canada, curated by Professor Michael Jackson, KC.';
 
 const pageTitle = title === siteName ? title : `${title} — ${siteName}`;
 const pageDescription = description || defaultDescription;
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? siteUrl).toString();
-const ogImage = thumbnail ? new URL(thumbnail, siteUrl).toString() : `${siteUrl}/images/og-default.jpg`;
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const ogImage = thumbnail ? new URL(thumbnail, siteUrl).toString() : new URL('/images/og-default.jpg', siteUrl).toString();
 
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: siteName,
-  url: siteUrl,
+  url: siteUrl.toString(),
   description: defaultDescription,
 };
 ---

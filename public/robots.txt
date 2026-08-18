@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 
-Sitemap: https://bearingwitnessproject.ca/sitemap-index.xml
+Sitemap: https://lawasart.ca/sitemap-index.xml
