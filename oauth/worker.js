@@ -1,11 +1,21 @@
+// Origins allowed to receive the GitHub token via postMessage, and to get a
+// non-wildcard CORS response. Keep in sync with where /admin is actually served.
+const ALLOWED_ORIGINS = [
+  'https://lawasart.ca',
+  'https://www.lawasart.ca',
+  'http://localhost:4321', // astro dev
+  'http://localhost:4323', // astro preview (.claude/launch.json)
+];
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const requestOrigin = request.headers.get('Origin');
+    const isAllowedOrigin = ALLOWED_ORIGINS.includes(requestOrigin);
 
-    // Allow Decap to reach this worker from any origin
     const cors = {
-      'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      ...(isAllowedOrigin && { 'Access-Control-Allow-Origin': requestOrigin }),
     };
 
     if (request.method === 'OPTIONS') {
@@ -57,7 +67,12 @@ function postMessagePage(status, content) {
   return new Response(
     `<!DOCTYPE html><html><head><title>Authenticating…</title></head><body><script>
       (function () {
+        var ALLOWED_ORIGINS = ${JSON.stringify(ALLOWED_ORIGINS)};
         function receive(e) {
+          if (ALLOWED_ORIGINS.indexOf(e.origin) === -1) {
+            console.error('OAuth callback: refusing to post token to disallowed origin', e.origin);
+            return;
+          }
           window.opener.postMessage(${JSON.stringify(msg)}, e.origin);
           window.removeEventListener('message', receive);
           window.close();
