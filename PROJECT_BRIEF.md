@@ -1,6 +1,6 @@
 # Bearing Witness Project — Technical Brief
 
-**Site:** bearingwitnessproject.ca ("Life of Law as Art")
+**Site:** lawasart.ca ("Life of Law as Art")
 **Repo:** patricklongdev/bearing-witness-project
 
 ## What this is
